@@ -21,7 +21,7 @@ Route::get("/test", function () {
     return "hola";
 });
 
-Route::middleware(["guest"])->group(function () {
+Route::middleware(["guest"])->prefix("auth/")->group(function () {
     Route::post("register/", [AuthController::class, "register"]);
     Route::post("login/", [AuthController::class, "login"]);
 });
