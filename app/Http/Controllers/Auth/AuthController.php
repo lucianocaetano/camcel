@@ -14,7 +14,6 @@ class AuthController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8',
         ]);
 
@@ -24,8 +23,8 @@ class AuthController extends Controller
 
         $user = User::create([
             'name' => $request->name,
-            'email' => $request->email,
             'password' => Hash::make($request->password),
+            "rol" => "Enterprise"
         ]);
 
         $token = $user->createToken('auth_token')->plainTextToken;
@@ -39,7 +38,7 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'email' => 'required|string|email',
+            'name' => 'required|string',
             'password' => 'required|string',
         ]);
 
@@ -47,7 +46,7 @@ class AuthController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
-        $user = User::where('email', $request->email)->first();
+        $user = User::where('name', $request->name)->first();
 
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json(['message' => 'Invalid credentials'], 401);
