@@ -60,4 +60,16 @@ class AuthController extends Controller
             'token_type' => 'Bearer',
         ]);
     }
+
+    public function me(Request $request)
+    {
+
+        return response()->json([
+            "user" => [
+                "name" => $request->user()->name,
+                "email" => $request->user()->email,
+                "rol" => $request->user()->rol
+            ]
+        ], 201);
+    }
 }

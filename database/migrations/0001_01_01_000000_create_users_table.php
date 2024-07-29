@@ -26,7 +26,9 @@ return new class extends Migration
 
         DB::table('users')->insert([
             'name' => 'admin',
+            'email' => 'lucianocaetano@gmail.com',
             'password' => Hash::make('password1234'),
+            "rol" => "Admin",
             'created_at' => now(),
             'updated_at' => now(),
         ]);
