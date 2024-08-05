@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('operators', function (Blueprint $table) {
-            $table->string("cedula")->primary();
+            $table->string("cedula")->primary()->unique();
             $table->string("nombre");
             $table->boolean("autorizado");
 
