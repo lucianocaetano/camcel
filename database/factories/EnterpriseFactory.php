@@ -20,8 +20,7 @@ class EnterpriseFactory extends Factory
     {
         $path = storage_path("app/public/enterprises/");
 
-        $image = null;
-        dd($this->faker->image($path, 50, 50, null, false));
+        $image = $this->faker->image($path, 50, 50, null, false);
 
         return [
             "RUT" => $this->faker->uuid(),
