@@ -11,6 +11,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::middleware([AdminMiddleware::class])->group(function () {
         Route::get("/enterprises", [AdminEnterpriseController::class, "index"])->name("get-enterprises");
         Route::get("/enterprises/{enterprise}", [AdminEnterpriseController::class, "show"])->name("get-enterprise");
+        Route::post("/enterprises", [AdminEnterpriseController::class, "store"])->name("store-enterprise");
     })->name("dashboard-admin.");
 });
 

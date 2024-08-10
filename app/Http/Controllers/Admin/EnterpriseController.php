@@ -27,7 +27,12 @@ class EnterpriseController extends Controller
      */
     public function store(EnterpriseStoreRequest $request)
     {
-        //
+        $data = $request->validated();
+
+        $enterprise = Enterprise::create($data);
+
+        return response(["enterprise" => $enterprise]);
+
     }
 
     /**
