@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\Enterprise;
 use Illuminate\Http\Request;
 use App\Http\Requests\EnterpriseStoreRequest;
 use App\Http\Requests\EnterpriseUpdateRequest;
+use App\Http\Controllers\Controller;
 
 class EnterpriseController extends Controller
 {

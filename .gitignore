@@ -1,6 +1,6 @@
 /.phpunit.cache
 /node_modules
-/ProyectoCamcelFrontend
+/camcel_frontend
 /public/build
 /public/hot
 /public/storage
