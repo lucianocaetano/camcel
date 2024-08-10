@@ -11,7 +11,7 @@ class EnterpriseStoreRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,19 @@ class EnterpriseStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            "RUT" => ["string", "required"],
+            "nombre" => ["string", "required"], 
+            "slug" => ["string", "required"], 
+            "is_valid" => ["bool", "required"], 
+            "image" => ["image", "mimes:jpeg,png,jpg,gif,svg"], 
+            "user_id" => ["required", "unique:users"]
         ];
     }
-}
+
+    public function prepareForValidation() {
+        $this->merge(
+            [
+                "slug" => str($this->slug." ".uniqid())->slug()
+            ]
+        );
+    }
