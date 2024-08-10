@@ -15,6 +15,8 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 Route::middleware(["guest"])->prefix("auth/")->group(function () {
+    // solo se registran empresas
     Route::post("register/", [AuthController::class, "register"]);
+    // se logea todo el mundo
     Route::post("login/", [AuthController::class, "login"]);
 });
