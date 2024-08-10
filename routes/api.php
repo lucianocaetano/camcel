@@ -10,8 +10,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::middleware([AdminMiddleware::class])->group(function () {
         Route::get("/enterprises", [EnterpriseController::class, "index"])->name("get-enterprises");
+        Route::get("/enterprise/{enterprise}", [EnterpriseController::class, "show"])->name("get-enterprise");
     })->name("dashboard-admin.");
-
 });
 
 Route::middleware(["guest"])->prefix("auth/")->group(function () {
