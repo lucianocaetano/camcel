@@ -34,7 +34,8 @@ class EnterpriseStoreRequest extends FormRequest
     public function prepareForValidation() {
         $this->merge(
             [
-                "slug" => str($this->slug." ".uniqid())->slug()
+                "slug" => str($this->nombre." ".uniqid())->slug()->value()
             ]
         );
     }
+}

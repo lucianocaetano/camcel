@@ -24,6 +24,10 @@ class Enterprise extends Model
         return "slug";
     }
 
+    public function user () {
+        return $this->belongsTo(User::class);
+    }
+
     public function operators()
     {
         return $this->hasMany(Operator::class);
