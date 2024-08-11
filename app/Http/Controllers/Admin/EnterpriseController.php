@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Enterprise;
-use Illuminate\Http\Request;
 use App\Http\Requests\EnterpriseStoreRequest;
 use App\Http\Requests\EnterpriseUpdateRequest;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\EnterpriseResource;
+use App\Http\Resources\OperatorsCollection;
 
 class EnterpriseController extends Controller
 {
@@ -40,7 +41,12 @@ class EnterpriseController extends Controller
      */
     public function show(Enterprise $enterprise)
     {
-        return response()->json(["enterprise" => $enterprise, "operators" => $enterprise->operators()]);
+        return response()->json(
+            [
+                "enterprise" => EnterpriseResource::make($enterprise), 
+                "operators" => new OperatorsCollection($enterprise->operators()->get())
+            ]
+        ); 
     }
 
     /**

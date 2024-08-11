@@ -17,6 +17,8 @@ class Operator extends Model
         'RUT_enterprise'
     ];
 
+    protected $primaryKey = 'RUT';
+
     public function enterprise()
     {
         return $this->belongsTo(Enterprise::class);

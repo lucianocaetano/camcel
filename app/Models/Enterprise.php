@@ -30,6 +30,6 @@ class Enterprise extends Model
 
     public function operators()
     {
-        return $this->hasMany(Operator::class);
+        return $this->hasMany(Operator::class, 'RUT_enterprise', 'RUT');
     }
 }
