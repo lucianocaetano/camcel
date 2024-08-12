@@ -12,11 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('operators', function (Blueprint $table) {
-            $table->string("cedula")->primary()->unique();
+            $table->id();
+            $table->string("cedula");
             $table->string("nombre");
             $table->boolean("autorizado");
+
             $table->string("cargo");
-            
             $table->string('RUT_enterprise');
             $table->foreign('RUT_enterprise')->references('RUT')->on('enterprises');
 
