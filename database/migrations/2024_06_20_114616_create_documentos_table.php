@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('documents', function (Blueprint $table) {
+        Schema::create('documentos', function (Blueprint $table) {
             $table->id();
             $table->string("url_document");
             $table->datetime("expira");
             $table->boolean("autorizado");
 
-            $table->string('operator_cedula');
-            $table->foreign('operator_cedula')->references('cedula')->on('operators');
+            $table->unsignedBigInteger('operator_id');
+            $table->foreign('operator_id')->references('id')->on('operators');
             
             $table->timestamps();
         });
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('documents');
+        Schema::dropIfExists('documentos');
     }
 };
