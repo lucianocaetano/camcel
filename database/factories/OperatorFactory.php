@@ -21,7 +21,7 @@ class OperatorFactory extends Factory
         $enterprise = Enterprise::factory()->create();
 
         return [
-            "cedula" => $this->faker->uuid(),
+            "cedula" => uniqid(),
             "nombre" => $this->faker->name(),
             "autorizado" => $this->faker->boolean(),
             "cargo" => $this->faker->company(),
