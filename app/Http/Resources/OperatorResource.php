@@ -17,7 +17,7 @@ class OperatorResource extends JsonResource
         return [
             "cedula" => $this->cedula,
             "nombre" => $this->nombre,
-            "autorizado" => $this->autorizado,
+            "autorizado" => ($this->autorizado === 1) ? "Autorizado": "No autorizado",
             "cargo" => $this->cargo
         ];
     }

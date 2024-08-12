@@ -62,6 +62,8 @@ class EnterpriseController extends Controller
      */
     public function destroy(Enterprise $enterprise)
     {
-        //
+        //$enterprise->delete();
+
+        return response()->json();
     }
 }
