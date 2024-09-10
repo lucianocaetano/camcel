@@ -17,9 +17,12 @@ return new class extends Migration
             $table->datetime("expira");
             $table->boolean("autorizado");
 
-            $table->string('operator_cedula');
-            $table->foreign('operator_cedula')->references('cedula')->on('operators');
-            
+            $table->string('operator_id');
+            $table->foreign('operator_id')->references('id')->on('operators');
+
+            $table->string('job_id');
+            $table->foreign('job_id')->references('id')->on('jobs');
+
             $table->timestamps();
         });
     }
