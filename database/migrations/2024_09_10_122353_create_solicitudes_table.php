@@ -11,16 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('operators', function (Blueprint $table) {
+        Schema::create('solicitudes', function (Blueprint $table) {
             $table->id();
-            $table->string("cedula");
-            $table->string("nombre");
-            $table->boolean("autorizado");
-
-            $table->text("role_description");
-            $table->string('RUT_enterprise');
-            $table->foreign('RUT_enterprise')->references('RUT')->on('enterprises');
-
+            $table->boolean("is_check");
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('destinatario_user_id');
+            $table->unsignedBigInteger('remitente_user_id');
             $table->timestamps();
         });
     }
@@ -30,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('operators');
+        Schema::dropIfExists('solicitudes');
     }
 };
