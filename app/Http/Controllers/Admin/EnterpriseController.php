@@ -17,7 +17,7 @@ class EnterpriseController extends Controller
     public function index()
     {
         $enterprise = new Enterprise();
-        
+
         $enterprise = $enterprise->all();
 
         return response()->json($enterprise, 200);
@@ -43,10 +43,10 @@ class EnterpriseController extends Controller
     {
         return response()->json(
             [
-                "enterprise" => EnterpriseResource::make($enterprise), 
+                "enterprise" => EnterpriseResource::make($enterprise),
                 "operators" => new OperatorsCollection($enterprise->operators()->get())
             ]
-        ); 
+        );
     }
 
     /**

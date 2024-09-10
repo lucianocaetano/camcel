@@ -18,22 +18,19 @@ class EnterpriseFactory extends Factory
      */
     public function definition(): array
     {
-        $path = storage_path("app/public/enterprises/");
+        //$path = storage_path("app/public/enterprises/");
 
-        $image = $this->faker->image($path, 50, 50, null, false);
+        //$image = $this->faker->image($path, 50, 50, null, false);
 
         $name = $this->faker->name();
-        $rut = $this->faker->uuid();
 
-        Operator::factory(10)->create([
-            "RUT_enterprise" => $rut
-        ]);
+        $rut = $this->faker->uuid();
 
         return [
             "RUT" => $rut,
             "nombre" => $name,
             "slug" => str($name." ".uniqid())->slug(),
-            "image" => "storage/enterprises/".$image,
+            "image" => "storage/enterprises/",//.$image,
             "is_valid" => $this->faker->boolean(),
             "user_id" => User::factory()
         ];

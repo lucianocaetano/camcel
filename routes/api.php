@@ -3,8 +3,6 @@
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Admin\EnterpriseController as AdminEnterpriseController;
 use App\Http\Middleware\AdminMiddleware;
-use App\Http\Resources\UsersCollection;
-use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->group(function () {
@@ -12,15 +10,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::middleware([AdminMiddleware::class])->prefix("/admin")->group(function () {
         Route::apiResource("/enterprises", AdminEnterpriseController::class);
-
-        // esta ruta es para devolver todos los usuarios con rol empresa que no esten asosiadas a una
-        Route::get("/users_enterprise", function () {
-            $users = User::whereDoesntHave('enterprises')->where('rol', '=', 'Enterprise')->get();
-
-            return response()->json([
-                "users" => new UsersCollection($users)
-            ]);
-        });
     })->name("dashboard-admin.");
 });
 
