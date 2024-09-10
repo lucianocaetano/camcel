@@ -15,8 +15,8 @@ return new class extends Migration
             $table->string("cedula")->primary()->unique();
             $table->string("nombre");
             $table->boolean("autorizado");
-            $table->string("cargo");
-            
+            $table->string("role_description");
+
             $table->string('RUT_enterprise');
             $table->foreign('RUT_enterprise')->references('RUT')->on('enterprises');
 
