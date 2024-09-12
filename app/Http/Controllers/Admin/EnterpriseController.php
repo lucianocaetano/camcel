@@ -44,7 +44,7 @@ class EnterpriseController extends Controller
         return response()->json(
             [
                 "enterprise" => EnterpriseResource::make($enterprise),
-                "operators" => new OperatorsCollection($enterprise->operators()->get())
+                "operators" => new OperatorsCollection($enterprise->operators)
             ]
         );
     }
@@ -62,7 +62,7 @@ class EnterpriseController extends Controller
      */
     public function destroy(Enterprise $enterprise)
     {
-        //$enterprise->delete();
+        $enterprise->delete();
 
         return response()->json();
     }
