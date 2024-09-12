@@ -15,11 +15,10 @@ class EnterpriseController extends Controller
      */
     public function index()
     {
-        $enterprise = new Enterprise();
-        
-        $enterprise = $enterprise->all();
 
-        return response()->json($enterprise, 200);
+        $enterprises = Enterprise::all();
+
+        return response()->json($enterprises, 200);
     }
 
     /**
