@@ -12,7 +12,7 @@ Route::middleware('auth:api')->group(function () {
     Route::middleware([AdminMiddleware::class])->group(function () {
         Route::apiResource("/enterprises", AdminEnterpriseController::class);
         Route::apiResource("/jobs", AdminJobController::class);
-    });
+    })->prefix("/admin");
 });
 
 Route::middleware(["guest"])->prefix("auth/")->group(function () {
