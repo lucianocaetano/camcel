@@ -16,6 +16,7 @@ return new class extends Migration
 
             $table->string("description");
             $table->string("is_check");
+            $table->string("is_check_enterprise");
 
             $table->date("date");
             $table->time("in_time");
