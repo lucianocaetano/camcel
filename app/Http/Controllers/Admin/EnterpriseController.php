@@ -62,7 +62,7 @@ class EnterpriseController extends Controller
      */
     public function destroy(Enterprise $enterprise)
     {
-        //$enterprise->delete();
+        $enterprise->update(["is_valid" => false]);
 
         return response()->json();
     }

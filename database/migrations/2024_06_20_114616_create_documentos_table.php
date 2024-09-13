@@ -17,8 +17,11 @@ return new class extends Migration
             $table->datetime("expira");
             $table->boolean("autorizado");
 
-            $table->unsignedBigInteger('operator_id');
+            $table->unsignedBigInteger('operator_id')->nulleable();
             $table->foreign('operator_id')->references('id')->on('operators');
+ 
+            $table->unsignedBigInteger('enterprise_id')->nulleable();
+            $table->foreign('enterprise_id')->references('id')->on('enterprises');
             
             $table->timestamps();
         });
