@@ -13,11 +13,16 @@ return new class extends Migration
     {
         Schema::create('jobs', function (Blueprint $table) {
             $table->id();
-            $table->time("ingreso_hora");
-            $table->time("salida_hora");
+
+            $table->string("description")->nullable();
+            $table->boolean("is_check")->default(false);
+            $table->boolean("is_check_enterprise")->default(false);
+
             $table->date("date");
-            
-            $table->string('RUT_enterprise');
+            $table->time("in_time");
+            $table->time("out_time");
+
+            $table->string('RUT_enterprise')->nullable();
             $table->foreign('RUT_enterprise')->references('RUT')->on('enterprises');
             $table->timestamps();
         });

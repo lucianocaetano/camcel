@@ -30,6 +30,7 @@ Route::middleware('auth:sanctum')->group(function () {
                 "users" => new UsersCollection($users)
             ]);
         });
+        Route::apiResource("/jobs", AdminJobController::class)->except(["show"]);
     })->name("dashboard-admin.");
 });
 
