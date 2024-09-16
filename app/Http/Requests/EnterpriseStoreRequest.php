@@ -22,18 +22,34 @@ class EnterpriseStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
+<<<<<<< HEAD
             "RUT" => ["string", "required", "unique:enterprises"],
             "nombre" => ["string", "required"],
             "slug" => ["string", "required"],
             "is_valid" => ["bool", "required"],
+=======
+            "RUT" => ["string", "required"],
+            "nombre" => ["string", "required"], 
+            "slug" => ["string", "required"], 
+            "is_valid" => ["bool", "required"], 
+            "image" => ["image", "mimes:jpeg,png,jpg,gif,svg"], 
+            "user_id" => ["required", "unique:users"]
+>>>>>>> actividades_calendario
         ];
     }
 
     public function prepareForValidation() {
         $this->merge(
             [
+<<<<<<< HEAD
                 "slug" => str($this->nombre." ".uniqid())->slug()->value()
             ]
         );
     }
 }
+=======
+                "slug" => str($this->slug." ".uniqid())->slug()
+            ]
+        );
+    }
+>>>>>>> actividades_calendario

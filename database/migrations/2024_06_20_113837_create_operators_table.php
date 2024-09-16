@@ -18,6 +18,7 @@ return new class extends Migration
             $table->boolean("autorizado");
 
             $table->text("role_description");
+
             $table->string('RUT_enterprise');
             $table->foreign('RUT_enterprise')->references('RUT')->on('enterprises');
 

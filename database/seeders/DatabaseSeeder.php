@@ -15,7 +15,11 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             EnterpriseSeeder::class,
+<<<<<<< HEAD
             OperatorSeeder::class,
+=======
+            UserSeeder::class,
+>>>>>>> actividades_calendario
             UserAdminSeeder::class,
         ]);
     }

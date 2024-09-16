@@ -24,7 +24,8 @@ class Enterprise extends Model
         return "slug";
     }
 
-    public function user () {
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 
