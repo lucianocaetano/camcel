@@ -14,15 +14,15 @@ return new class extends Migration
         Schema::create('jobs', function (Blueprint $table) {
             $table->id();
 
-            $table->string("description");
-            $table->string("is_check");
-            $table->string("is_check_enterprise");
+            $table->string("description")->nullable();
+            $table->boolean("is_check")->default(false);
+            $table->boolean("is_check_enterprise")->default(false);
 
             $table->date("date");
             $table->time("in_time");
             $table->time("out_time");
 
-            $table->string('RUT_enterprise');
+            $table->string('RUT_enterprise')->nullable();
             $table->foreign('RUT_enterprise')->references('RUT')->on('enterprises');
 
             $table->timestamps();

@@ -11,7 +11,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::middleware([AdminMiddleware::class])->prefix("/admin")->group(function () {
         Route::apiResource("/enterprises", AdminEnterpriseController::class);
-        Route::apiResource("/jobs", AdminJobController::class);
+        Route::apiResource("/jobs", AdminJobController::class)->except(["show"]);
     })->name("dashboard-admin.");
 });
 

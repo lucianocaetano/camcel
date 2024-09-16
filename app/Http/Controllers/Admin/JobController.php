@@ -21,7 +21,7 @@ class JobController extends Controller
 
         return response()->json([
             "jobs" => JobResource::collection($jobs)
-        ], 200);
+        ]);
     }
 
     /**
@@ -29,30 +29,32 @@ class JobController extends Controller
      */
     public function store(JobStoreRequest $request)
     {
-        //
-    }
+        $data = $request->validated();
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
+        $job = Job::create($data);
+
+        return response()->json(["job" => JobResource::make($job)], 201);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(JobUpdateRequest $request, string $id)
+    public function update(JobUpdateRequest $request, Job $job)
     {
-        //
+        $data = $request->validated();
+
+        $job->update($data);
+
+        return response()->json(["job" => JobResource::make($job)]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Job $job)
     {
-        //
+        $job->delete();
+
+        return response()->json();
     }
 }

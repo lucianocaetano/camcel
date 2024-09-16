@@ -11,7 +11,7 @@ class JobStoreRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,13 @@ class JobStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            "description" => ["string"],
+            "is_check" => ["bool"],
+            "is_check_enterprise" => ["bool"],
+            "date" => ["date", "required"],
+            "in_time" => ["date_format:H:i", "required"],
+            "out_time" => ["date_format:H:i", "required"],
+            'RUT_enterprise' => ["string", "exists:enterprises,RUT"],
         ];
     }
 }
