@@ -16,7 +16,7 @@ class EnterpriseController extends Controller
      */
     public function index()
     {
-        $enterprises = Enterprise::all();
+        $enterprises = Enterprise::orderBy('created_at', 'desc')->get();
 
         return response()->json($enterprises);
     }
@@ -31,7 +31,6 @@ class EnterpriseController extends Controller
         $enterprise = Enterprise::create($data);
 
         return response(["enterprise" => $enterprise]);
-
     }
 
     /**
