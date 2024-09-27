@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('jobs', function (Blueprint $table) {
             $table->id();
 
-            $table->string("description")->nullable();
+            $table->string("title");
             $table->boolean("is_check")->default(false);
             $table->boolean("is_check_enterprise")->default(false);
 

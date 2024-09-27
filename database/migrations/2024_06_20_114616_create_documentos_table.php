@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('documentos', function (Blueprint $table) {
             $table->id();
             $table->string("url_document");
+            $table->string("title");
             $table->datetime("expira");
-            $table->boolean("autorizado");
+            $table->boolean("is_valid");
 
             $table->string('operator_id')->nullable();
             $table->foreign('operator_id')->references('id')->on('operators');

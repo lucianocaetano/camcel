@@ -18,7 +18,7 @@ class EnterpriseController extends Controller
     {
         $enterprises = Enterprise::all();
 
-        return response()->json($enterprises, 200);
+        return response()->json($enterprises);
     }
 
     /**

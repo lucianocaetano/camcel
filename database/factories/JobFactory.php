@@ -17,7 +17,7 @@ class JobFactory extends Factory
     public function definition(): array
     {
         return [
-            "description" => $this->faker->paragraph(),
+            "title" => $this->faker->paragraph(),
             "is_check" => $this->faker->boolean(),
             "is_check_enterprise" => $this->faker->boolean(),
             "date" => $this->faker->date(),
