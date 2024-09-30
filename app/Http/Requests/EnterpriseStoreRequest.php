@@ -27,7 +27,7 @@ class EnterpriseStoreRequest extends FormRequest
             "slug" => ["string", "required"],
             "is_valid" => ["bool", "required"],
             "image" => ["nullable", "image", "mimes:jpeg,png,jpg,gif,svg"],
-            "user_id" => ["nullable", "required", "exists:users"]
+            "user_id" => ["nullable", "required", "exists:users,id"]
         ];
     }
 

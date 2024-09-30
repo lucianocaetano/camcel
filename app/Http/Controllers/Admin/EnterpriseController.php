@@ -61,6 +61,8 @@ class EnterpriseController extends Controller
     {
         $enterprise->delete();
 
-        return response()->json();
+        return response()->json([
+            "message" => "OK"
+        ]);
     }
 }

@@ -14,10 +14,9 @@ class Operator extends Model
         "nombre",
         "autorizado",
         "cargo",
-        'RUT_enterprise'
+        'enterprise_id'
     ];
 
-    protected $primaryKey = 'RUT';
 
     public function enterprise()
     {

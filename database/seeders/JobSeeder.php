@@ -18,7 +18,7 @@ class JobSeeder extends Seeder
 
         foreach ($enterprises as $enterprise) {
             Job::factory()->create([
-                "RUT_enterprise" => $enterprise->RUT,
+                "enterprise_id" => $enterprise->id,
             ]);
         }
     }
