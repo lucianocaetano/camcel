@@ -22,13 +22,22 @@ class JobStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "description" => ["string"],
-            "is_check" => ["bool"],
-            "is_check_enterprise" => ["bool"],
+            "title" => ["required", "string"],
+            "slug" => ["required", "string"],
+            "is_check" => ["required", "bool"],
+            "is_check_enterprise" => ["required", "bool"],
             "date" => ["date", "required"],
             "in_time" => ["date_format:H:i", "required"],
             "out_time" => ["date_format:H:i", "required"],
-            'RUT_enterprise' => ["string", "exists:enterprises,RUT"],
+            'RUT_enterprise' => ["required", "string", "exists:enterprises,RUT"],
         ];
+    }
+
+    public function prepareForValidation() {
+        $this->merge(
+            [
+                "slug" => str($this->title." ".uniqid())->slug()->value()
+            ]
+        );
     }
 }

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
 
             $table->string("title");
+            $table->string("slug");
             $table->boolean("is_check")->default(false);
             $table->boolean("is_check_enterprise")->default(false);
 

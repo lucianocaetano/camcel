@@ -16,8 +16,11 @@ class JobFactory extends Factory
      */
     public function definition(): array
     {
+        $title = $this->faker->title();
+
         return [
-            "title" => $this->faker->paragraph(),
+            "title" => $title,
+            "slug" => str($title." ".uniqid())->slug()->value(),
             "is_check" => $this->faker->boolean(),
             "is_check_enterprise" => $this->faker->boolean(),
             "date" => $this->faker->date(),

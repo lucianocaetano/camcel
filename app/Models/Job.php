@@ -11,6 +11,7 @@ class Job extends Model
 
     protected $fillable = [
         "name",
+        "slug",
         "description",
         "is_check",
         "date",
@@ -18,6 +19,11 @@ class Job extends Model
         "out_time",
         'RUT_enterprise',
     ];
+
+    public function getRouteKeyName()
+    {
+        return "slug";
+    }
 
     public function enterprise()
     {
