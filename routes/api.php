@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Admin\EnterpriseController as AdminEnterpriseController;
+use App\Http\Controllers\EmpresaController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Resources\UsersCollection;
 use App\Models\User;
@@ -18,6 +19,8 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', [AuthController::class, "me"]);
+    Route::get('/verificar-empresa', [EmpresaController::class, 'verificar']);
+    Route::post('/crear-empresa', [EmpresaController::class, 'crear']);
 
     Route::middleware([AdminMiddleware::class])->prefix("/admin")->group(function () {
         Route::apiResource("/enterprises", AdminEnterpriseController::class);
