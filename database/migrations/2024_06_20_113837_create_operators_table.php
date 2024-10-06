@@ -17,9 +17,11 @@ return new class extends Migration
             $table->string("nombre");
             $table->boolean("autorizado");
 
-            $table->string("cargo");
-            $table->string('RUT_enterprise');
-            $table->foreign('RUT_enterprise')->references('RUT')->on('enterprises');
+            $table->text("role_description");
+
+            $table->unsignedBigInteger('enterprise_id')->nullable();
+            $table->foreign('enterprise_id')->references('id')->on('enterprises')->onDelete('cascade');
+
 
             $table->timestamps();
         });

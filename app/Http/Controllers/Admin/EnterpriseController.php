@@ -16,11 +16,9 @@ class EnterpriseController extends Controller
      */
     public function index()
     {
-        $enterprise = new Enterprise();
-        
-        $enterprise = $enterprise->all();
+        $enterprises = Enterprise::orderBy('created_at', 'desc')->get();
 
-        return response()->json($enterprise, 200);
+        return response()->json($enterprises);
     }
 
     /**
@@ -33,7 +31,6 @@ class EnterpriseController extends Controller
         $enterprise = Enterprise::create($data);
 
         return response(["enterprise" => $enterprise]);
-
     }
 
     /**
@@ -64,6 +61,8 @@ class EnterpriseController extends Controller
     {
         $enterprise->update(["is_valid" => false]);
 
-        return response()->json();
+        return response()->json([
+            "message" => "OK"
+        ]);
     }
 }

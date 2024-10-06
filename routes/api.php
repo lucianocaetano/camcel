@@ -4,7 +4,6 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Admin\EnterpriseController as AdminEnterpriseController;
 use App\Http\Controllers\EmpresaController;
 use App\Http\Middleware\AdminMiddleware;
-use App\Http\Resources\UsersCollection;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\UserController;
@@ -34,6 +33,12 @@ Route::middleware('auth:sanctum')->group(function () {
             ]);
         });
         Route::apiResource("/jobs", AdminJobController::class)->except(["show"]);
+
+        Route::get("/businessmen", function () {
+            $user = User::whereDoesntHave('enterprises')->where('rol', '!=', 'Admin')->get();
+
+            return response()->json($user);
+        });
     })->name("dashboard-admin.");
 });
 

@@ -22,12 +22,12 @@ class EnterpriseStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "RUT" => ["string", "required"],
-            "nombre" => ["string", "required"], 
-            "slug" => ["string", "required"], 
-            "is_valid" => ["bool", "required"], 
-            "image" => ["image", "mimes:jpeg,png,jpg,gif,svg"], 
-            "user_id" => ["required", "unique:enterprises"]
+            "RUT" => ["string", "required", "unique:enterprises"],
+            "nombre" => ["string", "required"],
+            "slug" => ["string", "required"],
+            "is_valid" => ["bool", "required"],
+            "image" => ["nullable", "image", "mimes:jpeg,png,jpg,gif,svg"],
+            "user_id" => ["nullable", "required", "exists:users,id"]
         ];
     }
 

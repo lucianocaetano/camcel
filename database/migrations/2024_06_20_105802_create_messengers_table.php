@@ -13,12 +13,11 @@ return new class extends Migration
     {
         Schema::create('messengers', function (Blueprint $table) {
             $table->id();
-            $table->date("fecha");
-            $table->text("texto");
-            
+            $table->text("message");
+
             $table->unsignedBigInteger('remitente');
             $table->foreign('remitente')->references('id')->on('users');
-            
+
             $table->unsignedBigInteger('destinatario');
             $table->foreign('destinatario')->references('id')->on('users');
 

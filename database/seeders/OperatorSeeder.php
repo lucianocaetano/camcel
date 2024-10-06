@@ -13,6 +13,10 @@ class OperatorSeeder extends Seeder
      */
     public function run(): void
     {
-        Operator::factory()->count(10)->create();
+        $enterprises = Enterprise::all();
+
+        foreach ($enterprises as $enterprise) {
+            Operator::factory(5)->create(["enterprise_id"=>$enterprise->id]);
+        }
     }
 }
