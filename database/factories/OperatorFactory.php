@@ -18,14 +18,12 @@ class OperatorFactory extends Factory
 
     public function definition(): array
     {
-        $enterprise = Enterprise::factory()->create();
-
+    
         return [
             "cedula" => uniqid(),
             "nombre" => $this->faker->name(),
             "autorizado" => $this->faker->boolean(),
-            "cargo" => $this->faker->company(),
-            "RUT_enterprise" => $enterprise->RUT 
+            "role_description" => $this->faker->company(),
         ];
     }
 }
