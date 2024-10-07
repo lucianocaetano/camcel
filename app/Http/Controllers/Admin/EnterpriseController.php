@@ -16,7 +16,7 @@ class EnterpriseController extends Controller
      */
     public function index()
     {
-        $enterprises = Enterprise::orderBy('created_at', 'desc')->get();
+        $enterprises = Enterprise::where("is_valid", "=", "1")->orderBy('created_at', 'desc')->get();
 
         return response()->json($enterprises);
     }
@@ -28,7 +28,12 @@ class EnterpriseController extends Controller
     {
         $data = $request->validated();
 
+        if ($request->hasFile('image')) {
+            $data['image'] = "storage/" . $request->file('image')->store('enterprises', 'public');
+        }
+
         $enterprise = Enterprise::create($data);
+
 
         return response(["enterprise" => $enterprise]);
     }
@@ -40,10 +45,10 @@ class EnterpriseController extends Controller
     {
         return response()->json(
             [
-                "enterprise" => EnterpriseResource::make($enterprise), 
+                "enterprise" => EnterpriseResource::make($enterprise),
                 "operators" => new OperatorsCollection($enterprise->operators()->get())
             ]
-        ); 
+        );
     }
 
     /**

@@ -26,12 +26,17 @@ class EnterpriseStoreRequest extends FormRequest
             "nombre" => ["string", "required"],
             "slug" => ["string", "required"],
             "is_valid" => ["bool", "required"],
-            "image" => ["nullable", "image", "mimes:jpeg,png,jpg,gif,svg"],
+            "image" => ["nullable", "image"],
             "user_id" => ["nullable", "required", "exists:users,id"]
         ];
     }
 
     public function prepareForValidation() {
+
+        $this->merge([
+            'is_valid' => filter_var($this->is_valid, FILTER_VALIDATE_BOOLEAN)
+        ]);
+
         $this->merge(
             [
                 "slug" => str($this->nombre." ".uniqid())->slug()->value()
