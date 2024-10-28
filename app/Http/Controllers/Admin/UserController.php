@@ -18,10 +18,12 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        if($request->get("role")){
-            $users = User::where("rol", "=", $request->get("role"))->get();
-        }else {
-            $users = User::all();
+        if($request->get("role") === "users_enterprise"){
+            $users = User::whereDoesntHave('enterprises')->where('rol', '=', 'Enterprise')->orderBy('created_at', 'desc')->get();
+        } else if($request->get("role")){
+            $users = User::where("rol", "=", $request->get("role"))->orderBy('created_at', 'desc')->get();
+        } else {
+            $users = User::orderBy('created_at', 'desc')->get();
         }
 
         return response()->json(UserResource::collection($users));

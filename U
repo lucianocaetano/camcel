@@ -1,0 +1,130 @@
+<template>
+  <q-btn class="bg-primary text-white" @click="handleCreateUserMenuOpen">Crear</q-btn>
+  <br />
+
+  <ValidDeleteUserMenu
+    :show="validDeleteMenu"
+    @handleDeleteUserMenuClose="handleDeleteUserMenuClose"
+    @handleDeleteUserMenuAccept="handleDeleteUserMenuAccept"
+  />
+
+  <CreateUser
+    :show="createUser"
+    @handleCloseCreateUser="handleCreateUserMenuClose"
+  />
+
+  <div class="full-width flex justify-end">
+    <div>
+      <q-btn @click="fetchUsers(undefined)">Todos</q-btn>
+      <q-btn @click="fetchUsers('Admin')">Admin</q-btn>
+      <q-btn @click="fetchUsers('Enterprise')">Empresarios</q-btn>
+      <q-btn @click="fetchUsers('Guard')">Guardia</q-btn>
+    </div>
+  </div>
+  <div class="q-pa-md">
+    <q-markup-table style="height: 500px; overflow-y: scroll">
+      <thead>
+        <tr>
+          <th class="text-left">Name</th>
+          <th class="text-right">Email</th>
+          <th class="text-right">Rol</th>
+          <th class="text-right">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="user in users" :key="user.id" class="cursor-pointer">
+          <td class="text-left">{{ user.name }}</td>
+          <td class="text-right">{{ user.email }}</td>
+          <td class="text-right">{{ user.rol }}</td>
+          <td class="text-right">
+            <q-btn
+              icon="delete"
+              class="text-negative"
+              @click="() => handleDeleteUserMenuOpen(user.id)"
+            />
+          </td>
+        </tr>
+      </tbody>
+    </q-markup-table>
+  </div>
+</template>
+
+<script>
+import { api } from "src/boot/axios";
+import { ref } from "vue";
+import ValidDeleteUserMenu from "src/components/ValidDeleteUserMenu.vue";
+import CreateUser from "src/components/CreateUser.vue";
+
+export default {
+  components: {
+    ValidDeleteUserMenu,
+    CreateUser,
+  },
+  setup() {
+    const isLoading = ref(true);
+    const users = ref([]);
+
+    const validDeleteMenu = ref(false);
+    const createUser = ref(false);
+    const id_user_delete = ref(null);
+
+    const handleDeleteUser = (id) => {
+      api.delete(`admin/users/${id}}`).then((response) => {
+        if (response.status === 200) {
+          users.value = users.value.filter((user) => user.id !== id);
+        }
+      });
+    };
+
+    const handleDeleteUserMenuOpen = (id) => {
+      id_user_delete.value = id;
+      validDeleteMenu.value = true;
+    };
+
+    const handleDeleteUserMenuClose = () => {
+      validDeleteMenu.value = false;
+    };
+
+    const handleDeleteUserMenuAccept = () => {
+      validDeleteMenu.value = false;
+      handleDeleteUser(id_user_delete.value);
+      id_user_delete.value = null;
+    };
+
+    const fetchUsers = (role = undefined) => {
+      const params = {
+        role,
+      };
+
+      api.get("admin/users", { params }).then((response) => {
+        isLoading.value = false;
+        users.value = response.data;
+      });
+    };
+
+    fetchUsers()
+
+    const handleCreateUserMenuClose = () => {
+      createUser.value = false;
+    };
+
+    const handleCreateUserMenuOpen = () => {
+      createUser.value = true;
+    };
+
+    return {
+      fetchUsers,
+      users,
+      isLoading,
+      handleDeleteUser,
+      validDeleteMenu,
+      handleDeleteUserMenuClose,
+      handleDeleteUserMenuOpen,
+      handleDeleteUserMenuAccept,
+      handleCreateUserMenuClose,
+      handleCreateUserMenuOpen,
+      createUser,
+    };
+  },
+};
+</script>

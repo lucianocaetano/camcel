@@ -15,10 +15,10 @@ class UserUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'sometimes|string|max:255',
-            'email' => 'sometimes|email|unique:users,email,' . $this->user->id,
+            'name' => 'string|max:255',
+            'email' => 'email|unique:users,email,',
             'password' => 'nullable|string|min:8',
-            'rol' => 'sometimes|in:Admin,Enterprise,Operator',
+            'rol' => 'string|in:Admin,Enterprise,Operator',
         ];
     }
 }

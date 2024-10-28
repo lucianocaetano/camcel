@@ -11,7 +11,7 @@ class EnterpriseUpdateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,24 @@ class EnterpriseUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            "nombre" => ["string", "required"],
+            "is_valid" => ["bool", "required"],
+            "image" => ["nullable", "image"],
+            "user_id" => ["nullable", "exists:users,id"]
         ];
+    }
+
+    public function prepareForValidation()
+    {
+
+        $this->merge([
+            'is_valid' => filter_var($this->is_valid, FILTER_VALIDATE_BOOLEAN)
+        ]);
+
+        $this->merge(
+            [
+                "slug" => str($this->nombre . " " . uniqid())->slug()->value()
+            ]
+        );
     }
 }
