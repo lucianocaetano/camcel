@@ -20,7 +20,7 @@ return new class extends Migration
             $table->boolean("is_valid");
 
             $table->unsignedBigInteger('user_id')->unique()->nullable();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

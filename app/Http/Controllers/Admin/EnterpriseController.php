@@ -11,14 +11,14 @@ use App\Http\Resources\OperatorsCollection;
 
 class EnterpriseController extends Controller
 {
-/**
- * Display a listing of the resource.
- */
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
-        $enterprises = Enterprise::orderBy('created_at', 'desc')->get();
+        $enterprises = Enterprise::where("is_valid", "=", "1")->orderBy('created_at', 'desc')->get();
 
-        return response()->json(EnterpriseResource::collection($enterprises));
+        return response()->json($enterprises);
     }
 
     /**
@@ -33,6 +33,7 @@ class EnterpriseController extends Controller
         }
 
         $enterprise = Enterprise::create($data);
+
 
         return response(["enterprise" => $enterprise]);
     }
@@ -55,15 +56,7 @@ class EnterpriseController extends Controller
      */
     public function update(EnterpriseUpdateRequest $request, Enterprise $enterprise)
     {
-        $data = $request->validated();
-
-        if ($request->hasFile('image')) {
-            $data['image'] = "storage/" . $request->file('image')->store('enterprises', 'public');
-        }
-
-        $enterprise->update($data);
-
-        return response(["enterprise" => EnterpriseResource::make($enterprise)]);
+        //
     }
 
     /**
