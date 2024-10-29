@@ -18,7 +18,7 @@ class UserUpdateRequest extends FormRequest
             'name' => 'string|max:255',
             'email' => 'email|unique:users,email,',
             'password' => 'nullable|string|min:8',
-            'rol' => 'string|in:Admin,Enterprise,Operator',
+            'rol' => 'string|in:Admin,Enterprise,Guard',
         ];
     }
 }
