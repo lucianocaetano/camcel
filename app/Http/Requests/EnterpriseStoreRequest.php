@@ -38,3 +38,4 @@ class EnterpriseStoreRequest extends FormRequest
             ]
         );
     }
+}
