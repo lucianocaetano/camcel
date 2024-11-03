@@ -10,24 +10,16 @@ class Job extends Model
     use HasFactory;
 
     protected $fillable = [
-        "name",
-        "slug",
-        "description",
-        "is_check",
-        "date",
-        "in_time",
-        "out_time",
-        'RUT_enterprise',
+        'trabajo',
+        'empresa_id',
+        'hora_entrada',
+        'hora_salida',
+        'confirmacion_prevencionista',
+        'confirmacion_empresa',
     ];
 
-    public function getRouteKeyName()
+    public function dates()
     {
-        return "slug";
+        return $this->hasMany(JobDate::class);
     }
-
-    public function enterprise()
-    {
-        return $this->belongsTo(Enterprise::class);
-    }
-
 }

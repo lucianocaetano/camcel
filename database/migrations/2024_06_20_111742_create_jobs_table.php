@@ -14,19 +14,14 @@ return new class extends Migration
         Schema::create('jobs', function (Blueprint $table) {
             $table->id();
 
-            $table->string("title");
-            $table->string(column: "name_enterprise");
-            $table->string(column: "details");
-            $table->string("slug");
-            $table->boolean("is_check")->default(false);
-            $table->boolean("is_check_enterprise")->default(false);
+            $table->string("trabajo");
+            $table->unsignedBigInteger('empresa_id')->nullable();
+            $table->time("hora_entrada");
+            $table->time("hora_salida");
+            $table->boolean("confirmacion_prevencionista")->default(false);
+            $table->boolean("confirmacion_empresa")->default(false);
 
-            $table->date("date");
-            $table->time("in_time");
-            $table->time("out_time");
-
-            $table->unsignedBigInteger('enterprise_id')->nullable();
-            $table->foreign('enterprise_id')->references('id')->on('enterprises')->onDelete('cascade');
+            $table->foreign('empresa_id')->references('id')->on('enterprises')->onDelete('cascade');
 
             $table->timestamps();
         });

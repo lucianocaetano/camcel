@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Admin\EnterpriseController as AdminEnterpriseController;
+use App\Http\Controllers\Admin\JobController as AdminJobController;
 use App\Http\Controllers\EmpresaController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Models\User;

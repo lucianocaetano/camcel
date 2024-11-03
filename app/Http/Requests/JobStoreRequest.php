@@ -24,9 +24,10 @@ class JobStoreRequest extends FormRequest
         return [
             "title" => ["required", "string"],
             "slug" => ["required", "string"],
-            "is_check" => ["required", "bool"],
-            "is_check_enterprise" => ["required", "bool"],
-            "date" => ["date", "required"],
+            "is_check" => ["required", "boolean"],
+            "is_check_enterprise" => ["required", "boolean"],
+            "fechas" => ["required", "array"], // Cambiado para aceptar un array de fechas
+            "fechas.*" => ["required", "date"], // Valida cada fecha individualmente
             "in_time" => ["date_format:H:i", "required"],
             "out_time" => ["date_format:H:i", "required"],
             'RUT_enterprise' => ["required", "string", "exists:enterprises,RUT"],
