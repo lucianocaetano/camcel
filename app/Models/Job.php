@@ -10,16 +10,17 @@ class Job extends Model
     use HasFactory;
 
     protected $fillable = [
+        'id',
         'trabajo',
-        'empresa_id',
+        'enterprise_id',
         'hora_entrada',
         'hora_salida',
         'confirmacion_prevencionista',
         'confirmacion_empresa',
     ];
 
-    public function dates()
+    public function jobdates()
     {
-        return $this->hasMany(JobDate::class);
+        return $this->hasMany(JobDate::class, 'job_id');
     }
 }
