@@ -15,13 +15,13 @@ class JobResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            "title" => $this->title,
-            "slug" => $this->slug,
-            "date" => $this->date,
-            "in_time" => $this->in_time,
-            "out_time"=> $this->out_time,
-            'name_enterprise' => $this->enterprise->nombre,
-            'contact_businessman' => $this->enterprise->user->email,
+            'id' => $this->id,
+            'trabajo' => $this->trabajo,
+            'empresa_id' => $this->empresa_id,
+            'hora_entrada' => $this->hora_entrada,
+            'hora_salida' => $this->hora_salida,
+            'confirmacion_prevencionista' => $this->confirmacion_prevencionista,
+            'confirmacion_empresa' => $this->confirmacion_empresa,
         ];
     }
 }

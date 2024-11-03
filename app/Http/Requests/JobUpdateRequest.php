@@ -4,14 +4,14 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class JobStoreRequest extends FormRequest
+class JobUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        return false;
     }
 
     /**
@@ -22,15 +22,15 @@ class JobStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "title" => ["required", "string"],
-            "slug" => ["required", "string"],
-            "is_check" => ["required", "boolean"],
-            "is_check_enterprise" => ["required", "boolean"],
-            "fechas" => ["required", "array"], // Cambiado para aceptar un array de fechas
-            "fechas.*" => ["required", "date"], // Valida cada fecha individualmente
+            "title" => ["string"],
+            "slug" => ["string"],
+            "is_check" => ["boolean"],
+            "is_check_enterprise" => ["boolean"],
+            "fechas" => ["array"], // Cambiado para aceptar un array de fechas
+            "fechas.*" => ["date"], // Valida cada fecha individualmente
             "in_time" => ["date_format:H:i", "required"],
             "out_time" => ["date_format:H:i", "required"],
-            'RUT_enterprise' => ["required", "string", "exists:enterprises,RUT"],
+            'RUT_enterprise' => ["string", "exists:enterprises,RUT"],
         ];
     }
 
