@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Admin\EnterpriseController as AdminEnterpriseController;
 use App\Http\Controllers\Admin\JobController as AdminJobController;
+use App\Http\Controllers\Admin\OperatorController as AdminOperatorController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Middleware\AdminMiddleware;
 use Illuminate\Support\Facades\Route;
@@ -12,6 +13,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::middleware([AdminMiddleware::class])->prefix("/admin")->group(function () {
         Route::apiResource("/enterprises", AdminEnterpriseController::class);
+        Route::apiResource("/{enterprise:slug}/operators", AdminOperatorController::class);
         Route::apiResource("/jobs", AdminJobController::class)->except(["show"]);
         Route::apiResource("/users", AdminUserController::class)->except(["show"]);
     })->name("dashboard-admin.");

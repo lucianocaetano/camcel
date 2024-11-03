@@ -35,7 +35,7 @@ class EnterpriseController extends Controller
         $enterprise = Enterprise::create($data);
 
 
-        return response(["enterprise" => $enterprise]);
+        return response(["enterprise" => $enterprise], 201);
     }
 
     /**
@@ -44,10 +44,7 @@ class EnterpriseController extends Controller
     public function show(Enterprise $enterprise)
     {
         return response()->json(
-            [
-                "enterprise" => EnterpriseResource::make($enterprise),
-                "operators" => new OperatorsCollection($enterprise->operators()->get())
-            ]
+            ["enterprise" => EnterpriseResource::make($enterprise)]
         );
     }
 
