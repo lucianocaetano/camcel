@@ -6,12 +6,12 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class EnterpriseUpdateRequest extends FormRequest
 {
-    /**
+      /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,10 @@ class EnterpriseUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            "nombre" => ["string"],
+            "is_valid" => ["bool"],
+            "image" => ["nullable", "image"],
+            "user_id" => ["nullable", "exists:users,id"]
         ];
     }
 }

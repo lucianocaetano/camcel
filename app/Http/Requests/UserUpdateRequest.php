@@ -8,7 +8,6 @@ class UserUpdateRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        // Autorizar solo si el usuario tiene permisos
         return true;
     }
 

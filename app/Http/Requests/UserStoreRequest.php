@@ -8,7 +8,6 @@ class UserStoreRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        // Autorizar solo si el usuario tiene permisos
         return true;
     }
 
@@ -18,7 +17,7 @@ class UserStoreRequest extends FormRequest
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:8',
-            'rol' => 'required|in:Admin,Enterprise,Operator',
+            'rol' => 'required|string|in:Admin,Enterprise,Guard',
         ];
     }
 }

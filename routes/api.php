@@ -2,9 +2,9 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Admin\EnterpriseController as AdminEnterpriseController;
-use App\Http\Controllers\EmpresaController;
+use App\Http\Controllers\Admin\JobController as AdminJobController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Middleware\AdminMiddleware;
-use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\UserController;
 
@@ -18,27 +18,11 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', [AuthController::class, "me"]);
-    Route::get('/verificar-empresa', [EmpresaController::class, 'verificar']);
-    Route::post('/crear-empresa', [EmpresaController::class, 'crear']);
 
     Route::middleware([AdminMiddleware::class])->prefix("/admin")->group(function () {
         Route::apiResource("/enterprises", AdminEnterpriseController::class);
-
-        // esta ruta es para devolver todos los usuarios con rol empresa que no esten asosiadas a una
-        Route::get("/users_enterprise", function () {
-            $users = User::whereDoesntHave('enterprises')->where('rol', '=', 'Enterprise')->get();
-
-            return response()->json([
-                "users" => new UsersCollection($users)
-            ]);
-        });
         Route::apiResource("/jobs", AdminJobController::class)->except(["show"]);
-
-        Route::get("/businessmen", function () {
-            $user = User::whereDoesntHave('enterprises')->where('rol', '!=', 'Admin')->get();
-
-            return response()->json($user);
-        });
+        Route::apiResource("/users", AdminUserController::class)->except(["show"]);
     })->name("dashboard-admin.");
 });
 
