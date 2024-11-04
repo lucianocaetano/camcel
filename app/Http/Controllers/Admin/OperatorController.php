@@ -2,49 +2,77 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Operator;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\OperatorStoreRequest;
+use App\Http\Requests\OperatorUpdateRequest;
+use App\Http\Resources\OperatorResource;
+use App\Models\Enterprise;
+use App\Models\Operator;
 
 class OperatorController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Enterprise $enterprise)
     {
-        //
+        $operators = $enterprise->operators;
+
+        return response()->json([
+            "operators" => OperatorResource::collection($operators)
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Enterprise $enterprise, OperatorStoreRequest $request)
     {
-        //
+        $data = $request->validated();
+
+        $operator = $enterprise->operators()->create($data);
+
+        return response()->json([
+            "operator" => OperatorResource::make($operator)
+        ]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Operator $operator)
+    public function show(Enterprise $enterprise, Operator $operator)
     {
-        //
+        $enterprise->operators()->findOrFail($operator->id);
+
+        return response()->json([
+            "operator" => OperatorResource::make($operator)
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Operator $operator)
+    public function update(Enterprise $enterprise, OperatorUpdateRequest $request, Operator $operator)
     {
-        //
+        $enterprise->operators()->findOrFail($operator->id);
+
+        $data = $request->validated();
+
+        $operator->update($data);
+
+        return response()->json([
+            "operator" => OperatorResource::make($operator)
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Operator $operator)
+    public function destroy(Enterprise $enterprise, Operator $operator)
     {
-        //
+        $enterprise->operators()->findOrFail($operator->id);
+
+        $operator->delete();
+
+        return response()->json([
+            "operator" => null
+        ]);
     }
 }

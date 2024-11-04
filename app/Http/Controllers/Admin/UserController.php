@@ -24,7 +24,7 @@ class UserController extends Controller
             $users = User::all();
         }
 
-        return response()->json($users, 200);
+        return response()->json(["users" =>UserResource::collection($users)], 200);
     }
 
     /**
@@ -38,7 +38,7 @@ class UserController extends Controller
 
         $user = User::create($data);
 
-        return response()->json(["user" => $user], 201);
+        return response()->json(["user" => UserResource::make($user)], 201);
     }
 
     /**
@@ -54,7 +54,7 @@ class UserController extends Controller
 
         $user->update($data);
 
-        return response()->json(["user" => $user]);
+        return response()->json(["user" => UserResource::make($user)]);
     }
 
     /**

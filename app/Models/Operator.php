@@ -13,7 +13,7 @@ class Operator extends Model
         "cedula",
         "nombre",
         "autorizado",
-        "cargo",
+        "role_description",
         'enterprise_id'
     ];
 
