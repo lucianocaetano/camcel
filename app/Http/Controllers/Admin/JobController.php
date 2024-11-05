@@ -8,6 +8,7 @@ use App\Http\Requests\JobUpdateRequest;
 use App\Http\Resources\JobResource;
 use App\Models\Job;
 use App\Models\JobDate;
+use Illuminate\Http\Request;
 
 class JobController extends Controller
 {
@@ -81,7 +82,7 @@ class JobController extends Controller
 
         return response()->json();
     }
-    public function updateConfirmation(request $request, $id)
+    public function updateConfirmation(Request $request, $id)
     {
         // Validar la solicitud
         $request->validate([
