@@ -15,6 +15,7 @@ class Job extends Model
         'enterprise_id',
         'confirmacion_prevencionista',
         'confirmacion_empresa',
+        "enterprise_id"
     ];
 
     public function jobdates()

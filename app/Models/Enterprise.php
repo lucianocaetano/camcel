@@ -28,6 +28,10 @@ class Enterprise extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function documents () {
+        return $this->hasMany(Document::class);
+    }
+
     public function operators()
     {
         return $this->hasMany(Operator::class);

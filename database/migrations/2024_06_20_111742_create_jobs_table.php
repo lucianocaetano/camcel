@@ -14,6 +14,9 @@ return new class extends Migration
         Schema::create('jobs', function (Blueprint $table) {
             $table->id();
             $table->string("trabajo");
+            $table->time("hora_entrada");
+            $table->time("hora_salida");
+
             $table->boolean("confirmacion_prevencionista")->nullable()->default(null);
             $table->boolean("confirmacion_empresa")->nullable()->default(null);
             $table->unsignedBigInteger('enterprise_id')->nullable();
