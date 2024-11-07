@@ -8,6 +8,7 @@ use App\Http\Requests\JobUpdateRequest;
 use App\Http\Resources\JobResource;
 use App\Models\Job;
 use App\Models\JobDate;
+use Illuminate\Http\Request;
 
 class JobController extends Controller
 {
@@ -16,10 +17,11 @@ class JobController extends Controller
      */
     public function index()
     {
-        $jobs = Job::with('dates')->get(); // Cargar las fechas relacionadas
+        $jobs = Job::with('jobdates')->get(); // Cargar las fechas relacionadas
 
         return response()->json([
-            "jobs" => JobResource::collection($jobs)
+            "jobs" => JobResource::collection($jobs),
+            "job_dates" => $jobs->pluck('jobdates')
         ]);
     }
 
@@ -43,7 +45,7 @@ class JobController extends Controller
 
         return response()->json(["job" => JobResource::make($job)], 201);
     }
-
+    
     /**
      * Update the specified resource in storage.
      */
@@ -80,4 +82,27 @@ class JobController extends Controller
 
         return response()->json();
     }
+    public function updateConfirmation(Request $request, $id)
+    {
+        // Validar la solicitud
+        $request->validate([
+            'confirmacion_prevencionista' => 'required|boolean',
+        ]);
+
+        // Buscar el trabajo por ID
+        $job = Job::find($id);
+
+        // Verificar si el trabajo existe
+        if (!$job) {
+            return response()->json(['message' => 'Trabajo no encontrado'], 404);
+        }
+
+        // Actualizar la confirmación del prevencionista
+        $job->confirmacion_prevencionista = $request->input('confirmacion_prevencionista');
+        $job->save();
+
+        // Devolver una respuesta
+        return response()->json(['message' => 'Confirmación actualizada correctamente', 'job' => $job]);
+    }
+
 }

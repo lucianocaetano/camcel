@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('job_dates', function (Blueprint $table) {
             $table->id();
 
-            $table->date('fecha');
+            $table->json('fecha');
 
             $table->unsignedBigInteger('job_id');
             $table->foreign('job_id')->references('id')->on('jobs')->onDelete('cascade');

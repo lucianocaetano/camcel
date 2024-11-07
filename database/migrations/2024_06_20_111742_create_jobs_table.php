@@ -13,15 +13,12 @@ return new class extends Migration
     {
         Schema::create('jobs', function (Blueprint $table) {
             $table->id();
-
             $table->string("trabajo");
-            $table->boolean("is_check")->default(false);
-            $table->boolean("is_check_enterprise")->default(false);
             $table->time("hora_entrada");
             $table->time("hora_salida");
 
-            $table->boolean("confirmacion_prevencionista")->default(false);
-            $table->boolean("confirmacion_empresa")->default(false);
+            $table->boolean("confirmacion_prevencionista")->nullable()->default(null);
+            $table->boolean("confirmacion_empresa")->nullable()->default(null);
 
             $table->unsignedBigInteger('enterprise_id')->nullable();
             $table->foreign('enterprise_id')->references('id')->on('enterprises')->onDelete('cascade');
