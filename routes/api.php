@@ -17,6 +17,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::apiResource("/{enterprise:slug}/operators", AdminOperatorController::class);
         Route::apiResource("/jobs", AdminJobController::class)->except(["show"]);
         Route::patch('/jobs/{id}/updateConfirmation', [AdminJobController::class, 'updateConfirmation']);
+        Route::patch('/jobs/{id}/updateConfirmationEvent', [AdminJobController::class, 'updateConfirmationEvent']);
         Route::apiResource("/users", AdminUserController::class)->except(["show"]);
     })->name("dashboard-admin.");
 });

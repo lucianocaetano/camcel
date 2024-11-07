@@ -28,8 +28,7 @@ class JobUpdateRequest extends FormRequest
             "is_check_enterprise" => ["boolean"],
             "fechas" => ["array"], // Cambiado para aceptar un array de fechas
             "fechas.*" => ["date"], // Valida cada fecha individualmente
-            "in_time" => ["date_format:H:i", "required"],
-            "out_time" => ["date_format:H:i", "required"],
+            
             'RUT_enterprise' => ["string", "exists:enterprises,RUT"],
         ];
     }

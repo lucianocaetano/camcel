@@ -13,8 +13,6 @@ class Job extends Model
         'id',
         'trabajo',
         'enterprise_id',
-        'hora_entrada',
-        'hora_salida',
         'confirmacion_prevencionista',
         'confirmacion_empresa',
     ];
@@ -22,5 +20,9 @@ class Job extends Model
     public function jobdates()
     {
         return $this->hasMany(JobDate::class, 'job_id');
+    }
+
+    public function enterprise(){
+        return $this->belongsTo(Enterprise::class);
     }
 }

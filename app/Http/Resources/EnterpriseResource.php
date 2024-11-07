@@ -22,7 +22,8 @@ class EnterpriseResource extends JsonResource
             "nombre" => $this->nombre,
             "image" => $this->image,
             "is_valid" => !!($this->is_valid),
-            "user" => UserResource::make($user)
+            "user" => UserResource::make($user),
+           
         ];
     }
 }

@@ -12,11 +12,9 @@ class JobFactory extends Factory
     public function definition()
     {
         return [
-            'trabajo' => $this->faker->sentence,
-            'hora_entrada' => '09:00',
-            'hora_salida' => '17:00',
-            'confirmacion_prevencionista' => false,
-            'confirmacion_empresa' => true,
+        'trabajo' => $this->faker->jobTitle, // Genera un título de trabajo aleatorio
+        'confirmacion_prevencionista' => $this->faker->randomElement([true, false, null]), // Genera un valor booleano aleatorio o null
+'confirmacion_empresa' => $this->faker->randomElement([true, false, null]), // Genera un valor booleano aleatorio o null
         ];
     }
 }
