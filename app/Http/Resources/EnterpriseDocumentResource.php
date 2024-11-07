@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class OperatorResource extends JsonResource
+class EnterpriseDocumentResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,10 +16,11 @@ class OperatorResource extends JsonResource
     {
         return [
             "id" => $this->id,
-            "ci" => $this->cedula,
-            "name" => $this->nombre,
-            "is_valid" => !!($this->autorizado)? "Autorizado": "No Autorizado",
-            "cargo" => $this->role_description
+            "url_document" => $this->url_document,
+            "title" => $this->title,
+            "expire" => $this->expire,
+            "is_valid" => $this->is_valid ? "Autorizado": "No autorizado",
+            'enterprise' => $this->enterprise->nombre,
         ];
     }
 }

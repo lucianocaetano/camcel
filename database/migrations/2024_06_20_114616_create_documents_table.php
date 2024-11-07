@@ -15,11 +15,15 @@ return new class extends Migration
             $table->id();
             $table->string("url_document");
             $table->string("title");
-            $table->datetime("expira");
-            $table->boolean("is_valid");
+            $table->datetime("expire")->nullable();
+            $table->string("type")->nullable();
+            $table->boolean("is_valid")->default(false);
 
             $table->unsignedBigInteger('operator_id')->nullable();
             $table->foreign('operator_id')->references('id')->on('operators');
+
+            $table->unsignedBigInteger('enterprise_id')->nullable();
+            $table->foreign('enterprise_id')->references('id')->on('enterprises');
 
             $table->unsignedBigInteger('job_id')->nullable();
             $table->foreign('job_id')->references('id')->on('jobs');

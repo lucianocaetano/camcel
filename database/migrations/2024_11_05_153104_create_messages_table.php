@@ -11,14 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('job_dates', function (Blueprint $table) {
+
+        Schema::create('messages', function (Blueprint $table) {
             $table->id();
-
-            $table->date('fecha');
-
-            $table->unsignedBigInteger('job_id');
-            $table->foreign('job_id')->references('id')->on('jobs')->onDelete('cascade');
-
+            $table->foreignId('sender_id');
+            $table->foreignId('receiver_id');
+            $table->text('content');
             $table->timestamps();
         });
     }
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('job_dates');
+        Schema::dropIfExists('messages');
     }
 };

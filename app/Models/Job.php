@@ -16,6 +16,7 @@ class Job extends Model
         'hora_salida',
         'confirmacion_prevencionista',
         'confirmacion_empresa',
+        "enterprise_id"
     ];
 
     public function dates()

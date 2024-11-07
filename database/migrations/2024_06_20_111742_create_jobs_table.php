@@ -19,6 +19,7 @@ return new class extends Migration
             $table->boolean("is_check_enterprise")->default(false);
             $table->time("hora_entrada");
             $table->time("hora_salida");
+
             $table->boolean("confirmacion_prevencionista")->default(false);
             $table->boolean("confirmacion_empresa")->default(false);
 
