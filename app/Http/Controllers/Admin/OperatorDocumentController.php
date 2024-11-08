@@ -7,7 +7,8 @@ use App\Http\Resources\OperatorDocumentResource;
 use App\Models\Document;
 use App\Models\Enterprise;
 use App\Models\Operator;
-use Illuminate\Http\Request;
+use App\Http\Requests\DocumentStoreRequest;
+use App\Http\Requests\DocumentUpdateRequest;
 
 class OperatorDocumentController extends Controller
 {
@@ -28,7 +29,7 @@ class OperatorDocumentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Enterprise $enterprise, Operator $operator, Request $request)
+    public function store(Enterprise $enterprise, Operator $operator, DocumentStoreRequest $request)
     {
         $request->validated();
 
@@ -67,7 +68,7 @@ class OperatorDocumentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Enterprise $enterprise, Operator $operator, Request $request, Document $document)
+    public function update(Enterprise $enterprise, Operator $operator, DocumentUpdateRequest $request, Document $document)
     {
         $data = $request->validated();
 

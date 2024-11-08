@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Document;
 use App\Models\Enterprise;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Operator;
 use Illuminate\Database\Seeder;
 
 class DocumentSeeder extends Seeder
@@ -15,6 +15,7 @@ class DocumentSeeder extends Seeder
     public function run(): void
     {
         $enterprises = Enterprise::all();
+        $operators = Operator::all();
 
         foreach ($enterprises as $enterprise) {
             Document::factory(5)->create([
@@ -22,11 +23,10 @@ class DocumentSeeder extends Seeder
             ]);
         }
 
-        /*
-            'operator_id',
-            'enterprise_id',
-            'job_id',
-
-         */
+        foreach ($operators as $operator) {
+            Document::factory(5)->create([
+                "operator_id" => $operator->id
+            ]);
+        }
     }
 }
