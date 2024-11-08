@@ -11,7 +11,7 @@ class OperatorUpdateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,11 @@ class OperatorUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            "ci" => ["string", "max:44"],
+            "name" => ["string", "max:50"],
+            "authorized" => ["boolean"],
+            "role_description"  => ["string",],
+
         ];
     }
 }

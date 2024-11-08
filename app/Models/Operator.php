@@ -10,9 +10,9 @@ class Operator extends Model
     use HasFactory;
 
     protected $fillable = [
-        "cedula",
-        "nombre",
-        "autorizado",
+        "ci",
+        "name",
+        "authorized",
         "role_description",
         'enterprise_id'
     ];

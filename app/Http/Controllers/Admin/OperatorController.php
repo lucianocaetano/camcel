@@ -13,7 +13,7 @@ class OperatorController extends Controller
 {
     public function index(Enterprise $enterprise)
     {
-        $operators = $enterprise->operators;
+        $operators = $enterprise->operators()->orderBy("created_at", "desc")->get();
 
         return response()->json([
             "operators" => OperatorResource::collection($operators)

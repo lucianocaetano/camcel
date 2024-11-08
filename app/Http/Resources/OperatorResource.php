@@ -16,9 +16,9 @@ class OperatorResource extends JsonResource
     {
         return [
             "id" => $this->id,
-            "ci" => $this->cedula,
-            "name" => $this->nombre,
-            "is_valid" => !!($this->autorizado)? "Autorizado": "No Autorizado",
+            "ci" => $this->ci,
+            "name" => $this->name,
+            "is_valid" => !!($this->authorized)? "Autorizado": "No Autorizado",
             "cargo" => $this->role_description
         ];
     }
