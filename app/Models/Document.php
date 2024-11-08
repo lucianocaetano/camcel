@@ -19,8 +19,13 @@ class Document extends Model
         'job_id',
     ];
 
-    function enterprise () {
+    public function enterprise () {
         return $this->belongsTo(Enterprise::class);
     }
+
+    public function operator () {
+        return $this->belongsTo(Operator::class);
+    }
+
 }
 

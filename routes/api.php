@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\JobController as AdminJobController;
 use App\Http\Controllers\Admin\OperatorController as AdminOperatorController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\EnterpriseDocumentController as AdminEnterpriseDocumentController;
+use App\Http\Controllers\Admin\OperatorDocumentController as AdminOperatorDocumentController;
 use App\Http\Middleware\AdminMiddleware;
 use Illuminate\Support\Facades\Route;
 
@@ -15,10 +16,14 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::middleware([AdminMiddleware::class])->prefix("/admin")->group(function () {
 
-        Route::apiResource("enterprises", AdminEnterpriseController::class);
-        Route::prefix("/enterprises")->group(function () {
-            Route::apiResource("/{enterprise:slug}/documents", AdminEnterpriseDocumentController::class);
-            Route::apiResource("/{enterprise:slug}/operators", AdminOperatorController::class);
+        Route::apiResource("/enterprises", AdminEnterpriseController::class);
+        Route::prefix("/enterprises/{enterprise:slug}")->group(function () {
+            Route::apiResource("/documents", AdminEnterpriseDocumentController::class);
+
+            Route::apiResource("/operators", AdminOperatorController::class);
+            Route::prefix("/operators/{operator:id}}")->group(function () {
+                Route::apiResource("/documents", AdminOperatorDocumentController::class);
+            });
         });
 
         Route::apiResource("/jobs", AdminJobController::class)->except(["show"]);

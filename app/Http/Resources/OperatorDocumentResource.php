@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class EnterpriseDocumentResource extends JsonResource
+class OperatorDocumentResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -20,7 +20,7 @@ class EnterpriseDocumentResource extends JsonResource
             "title" => $this->title,
             "expire" => $this->expire,
             "is_valid" => !!($this->is_valid),
-            'enterprise' => $this->enterprise->nombre,
+            'operator' => $this->operator->nombre,
         ];
     }
 }

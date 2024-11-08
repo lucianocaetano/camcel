@@ -45,7 +45,9 @@ class EnterpriseDocumentController extends Controller
      */
     public function show(Enterprise $enterprise, Document $document)
     {
-        $enterprise->documents()->findOrFail($document->id);
+        if ($document->enterprise_id !== $enterprise->id) {
+            abort(404);
+        }
 
         return response()->json(["document" => EnterpriseDocumentResource::make($document)]);
     }
@@ -55,11 +57,13 @@ class EnterpriseDocumentController extends Controller
      */
     public function update(Enterprise $enterprise, EnterpriseDocumentStoreRequest $request, Document $document)
     {
-        $data=$request->validated();
+        $data = $request->validated();
 
-        $enterprise->documents()->findOrFail($document->id);
+        if ($document->enterprise_id !== $enterprise->id) {
+            abort(404);
+        }
 
-        $path=null;
+        $path = null;
 
         if ($request->file("document")) {
             $path = $request->file('document')->store('documents', 'public');
@@ -76,7 +80,9 @@ class EnterpriseDocumentController extends Controller
      */
     public function destroy(Enterprise $enterprise, Document $document)
     {
-        $enterprise->documents()->findOrFail($document->id);
+        if ($document->enterprise_id !== $enterprise->id) {
+            abort(404);
+        }
 
         $document->delete();
 

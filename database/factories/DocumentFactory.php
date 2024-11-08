@@ -4,9 +4,6 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Document;
-use Illuminate\Support\Facades\Storage;
-use Dompdf\Dompdf;
-use Dompdf\Options;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Document>
@@ -25,7 +22,7 @@ class DocumentFactory extends Factory
 
         return [
             "url_document" => "storage/documents/test_document.pdf",
-            "title" => $this->faker->title(),
+            "title" => $this->faker->name(),
             "expire" => $this->faker->date(),
             "is_valid" => $this->faker->boolean(),
         ];

@@ -39,7 +39,9 @@ class OperatorController extends Controller
      */
     public function show(Enterprise $enterprise, Operator $operator)
     {
-        $enterprise->operators()->findOrFail($operator->id);
+        if ($operator->enterprise_id !== $enterprise->id) {
+            abort(404);
+        }
 
         return response()->json([
             "operator" => OperatorResource::make($operator)
@@ -51,9 +53,11 @@ class OperatorController extends Controller
      */
     public function update(Enterprise $enterprise, OperatorUpdateRequest $request, Operator $operator)
     {
-        $enterprise->operators()->findOrFail($operator->id);
-
         $data = $request->validated();
+
+        if ($operator->enterprise_id !== $enterprise->id) {
+            abort(404);
+        }
 
         $operator->update($data);
 
@@ -67,7 +71,9 @@ class OperatorController extends Controller
      */
     public function destroy(Enterprise $enterprise, Operator $operator)
     {
-        $enterprise->operators()->findOrFail($operator->id);
+        if ($operator->enterprise_id !== $enterprise->id) {
+            abort(404);
+        }
 
         $operator->delete();
 
