@@ -9,7 +9,12 @@ class JobDate extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['job_id', 'fecha'];
+    protected $fillable = [
+        'job_id',
+        'fecha',
+        'hora_entrada',
+        'hora_salida',
+    ];
 
     public function job()
     {

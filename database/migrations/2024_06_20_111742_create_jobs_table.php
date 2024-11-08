@@ -19,7 +19,6 @@ return new class extends Migration
 
             $table->boolean("confirmacion_prevencionista")->nullable()->default(null);
             $table->boolean("confirmacion_empresa")->nullable()->default(null);
-
             $table->unsignedBigInteger('enterprise_id')->nullable();
             $table->foreign('enterprise_id')->references('id')->on('enterprises')->onDelete('cascade');
 
