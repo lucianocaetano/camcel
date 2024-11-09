@@ -38,12 +38,14 @@ class EnterpriseController extends Controller
         }
 
         $user = Auth::user();
+        $enterprise = null;
+
         if ($user->rol === "Admin") {
             $enterprise = Enterprise::create($data);
-        } else {
-            if (!($user->enterprise)) {
-                $enterprise = Enterprise::create($data);
-            }
+        }
+
+        if ($user->rol === "Enterprise") {
+            $enterprise = $user->enterprise()->create($data);
         }
 
         return response(["enterprise" => $enterprise], 201);
