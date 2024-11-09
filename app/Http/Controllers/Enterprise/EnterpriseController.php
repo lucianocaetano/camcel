@@ -1,50 +1,32 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Enterprise;
 
-use App\Models\Enterprise;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\EnterpriseStoreRequest;
 use App\Http\Requests\EnterpriseUpdateRequest;
-use App\Http\Controllers\Controller;
 use App\Http\Resources\EnterpriseResource;
+use App\Models\Enterprise;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
 
 class EnterpriseController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        Gate::authorize('viewAny', Enterprise::class);
-
-        $enterprises = Enterprise::orderBy('created_at', 'desc')->get();
-
-        return response()->json(EnterpriseResource::collection($enterprises));
-    }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(EnterpriseStoreRequest $request)
     {
-        Gate::authorize('create', Enterprise::class);
-
         $data = $request->validated();
+
+        $user = Auth::user();
 
         if ($request->hasFile('image')) {
             $data['image'] = "storage/" . $request->file('image')->store('enterprises', 'public');
         }
 
-        $user = Auth::user();
-        if ($user->rol === "Admin") {
-            $enterprise = Enterprise::create($data);
-        } else {
-            if (!($user->enterprise)) {
-                $enterprise = Enterprise::create($data);
-            }
-        }
+        $enterprise = $user->enterprise()->create($data);
 
         return response(["enterprise" => $enterprise], 201);
     }
@@ -52,9 +34,18 @@ class EnterpriseController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Enterprise $enterprise)
+    public function show()
     {
-        Gate::authorize('view', $enterprise);
+
+        $user = Auth::user();
+
+        if (!$user || !$user->enterprise) {
+            return response()->json([
+                "message" => "You don't have a company"
+            ], 403);
+        }
+
+        $enterprise = $user->enterprise;
 
         return response()->json(
             ["enterprise" => EnterpriseResource::make($enterprise)]
@@ -64,11 +55,19 @@ class EnterpriseController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(EnterpriseUpdateRequest $request, Enterprise $enterprise)
+    public function update(EnterpriseUpdateRequest $request)
     {
-        Gate::authorize('update', $enterprise);
-
         $data = $request->validated();
+
+        $user = Auth::user();
+
+        if (!$user || !$user->enterprise) {
+            return response()->json([
+                "message" => "You don't have a company"
+            ], 403);
+        }
+
+        $enterprise = $user->enterprise;
 
         if ($request->hasFile('image')) {
             $data['image'] = "storage/" . $request->file('image')->store('enterprises', 'public');
@@ -82,12 +81,22 @@ class EnterpriseController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Enterprise $enterprise)
+    public function destroy()
     {
-        Gate::authorize('delete', $enterprise);
+        $user = Auth::user();
+
+        if (!$user || !$user->enterprise) {
+            return response()->json([
+                "message" => "You don't have a company"
+            ], 403);
+        }
+
+        $enterprise = $user->enterprise;
 
         $enterprise->update(["is_valid" => false]);
 
-        return response()->json();
+        return response()->json([
+            "message" => "OK"
+        ]);
     }
 }

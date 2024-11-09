@@ -18,7 +18,7 @@ class OperatorResource extends JsonResource
             "id" => $this->id,
             "ci" => $this->ci,
             "name" => $this->name,
-            "is_valid" => !!($this->authorized)? "Autorizado": "No Autorizado",
+            "is_valid" => !!($this->authorized),
             "cargo" => $this->role_description
         ];
     }

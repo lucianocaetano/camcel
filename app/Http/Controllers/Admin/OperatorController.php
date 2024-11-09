@@ -77,8 +77,6 @@ class OperatorController extends Controller
 
         $operator->delete();
 
-        return response()->json([
-            "operator" => null
-        ]);
+        return response()->json();
     }
 }
