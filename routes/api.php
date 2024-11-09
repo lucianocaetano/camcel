@@ -1,4 +1,5 @@
 <?php
+
 use App\Http\Middleware\AdminMiddleware;
 use Illuminate\Support\Facades\Route;
 
@@ -29,10 +30,18 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::apiResource("/users", AdminUserController::class)->except(["show"]);
 
-    // juan, estas son tus rutas
-    Route::apiResource("/jobs", AdminJobController::class)->except(["show"]);
-    Route::patch('/jobs/{id}/updateConfirmation', [AdminJobController::class, 'updateConfirmation']);
-    Route::patch('/jobs/{id}/updateConfirmationEvent', [AdminJobController::class, 'updateConfirmationEvent']);
+    // IMPORTANTE LEER:
+
+    // juan, estas son tus rutas:
+
+    // puse tus rutas con el grupo con el prefixo /admin para que te siga funcionando el frontend
+    // yo decidi sacarlas de ese middleware por que tengo pensado usar politicas de acceso de laravel
+    // en mes de middleware
+    Route::prefix("/admin")->group(function () {
+        Route::apiResource("/jobs", AdminJobController::class)->except(["show"]);
+        Route::patch('/jobs/{id}/updateConfirmation', [AdminJobController::class, 'updateConfirmation']);
+        Route::patch('/jobs/{id}/updateConfirmationEvent', [AdminJobController::class, 'updateConfirmationEvent']);
+    });
 });
 
 Route::middleware(["guest"])->prefix("auth/")->group(function () {
