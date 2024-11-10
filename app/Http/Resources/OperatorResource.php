@@ -19,7 +19,12 @@ class OperatorResource extends JsonResource
             "ci" => $this->ci,
             "name" => $this->name,
             "is_valid" => !!($this->authorized),
-            "cargo" => $this->role_description
+            "cargo" => $this->role_description,
+            "links" => [
+                'self' => route('operators.show', ['enterprise' => $this->enterprise->slug, "operator" => $this->id]),
+                'enterprise' => route('enterprises.show', ['enterprise' => $this->enterprise->slug]),
+                'documents' => route('operators.documents.index', ["enterprise" => $this->enterprise->slug, 'operator' => $this->id]),
+            ]
         ];
     }
 }

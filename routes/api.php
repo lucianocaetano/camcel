@@ -24,7 +24,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
         Route::apiResource("/operators", AdminOperatorController::class);
         Route::prefix("/operators/{operator:id}")->group(function () {
-            Route::apiResource("/documents", AdminOperatorDocumentController::class)->names("operator.documents");
+            Route::apiResource("/documents", AdminOperatorDocumentController::class)->names("operators.documents");
         });
     });
 

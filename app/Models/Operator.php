@@ -18,7 +18,7 @@ class Operator extends Model
     ];
 
 
-    public function enterprise()
+    public function enterprise ()
     {
         return $this->belongsTo(Enterprise::class);
     }

@@ -48,7 +48,7 @@ class EnterpriseController extends Controller
             $enterprise = $user->enterprise()->create($data);
         }
 
-        return response(["enterprise" => $enterprise], 201);
+        return response(["enterprise" => EnterpriseResource::make($enterprise)], 201);
     }
 
     /**

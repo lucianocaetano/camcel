@@ -9,6 +9,7 @@ use App\Models\Enterprise;
 use App\Models\Operator;
 use App\Http\Requests\DocumentStoreRequest;
 use App\Http\Requests\DocumentUpdateRequest;
+use Illuminate\Support\Facades\Gate;
 
 class OperatorDocumentController extends Controller
 {
@@ -17,9 +18,8 @@ class OperatorDocumentController extends Controller
      */
     public function index(Enterprise $enterprise, Operator $operator)
     {
-        if ($operator->enterprise_id !== $enterprise->id) {
-            abort(404);
-        }
+        Gate::authorize("view", $enterprise);
+        Gate::authorize("view", $operator);
 
         $documents = $operator->documents()->orderBy("created_at", "desc")->get();
 
@@ -31,11 +31,10 @@ class OperatorDocumentController extends Controller
      */
     public function store(Enterprise $enterprise, Operator $operator, DocumentStoreRequest $request)
     {
-        $request->validated();
+        Gate::authorize("view", $enterprise);
+        Gate::authorize("view", $operator);
 
-        if ($operator->enterprise_id !== $enterprise->id) {
-            abort(404);
-        }
+        $request->validated();
 
         $path = $request->file('document')->store('documents', 'public');
 
@@ -54,13 +53,9 @@ class OperatorDocumentController extends Controller
      */
     public function show(Enterprise $enterprise, Operator $operator, Document $document)
     {
-        if ($operator->enterprise_id !== $enterprise->id) {
-            abort(404);
-        }
-
-        if ($document->operator_id !== $operator->id) {
-            abort(404);
-        }
+        Gate::authorize("view", $enterprise);
+        Gate::authorize("view", $operator);
+        Gate::authorize("view", $document);
 
         return response()->json(["document" => OperatorDocumentResource::make($document)]);
     }
@@ -70,15 +65,11 @@ class OperatorDocumentController extends Controller
      */
     public function update(Enterprise $enterprise, Operator $operator, DocumentUpdateRequest $request, Document $document)
     {
+        Gate::authorize("view", $enterprise);
+        Gate::authorize("view", $operator);
+        Gate::authorize("update", $document);
+
         $data = $request->validated();
-
-        if ($operator->enterprise_id !== $enterprise->id) {
-            abort(404);
-        }
-
-        if ($document->operator_id !== $operator->id) {
-            abort(404);
-        }
 
         $enterprise->documents()->findOrFail($document->id);
 
@@ -99,15 +90,11 @@ class OperatorDocumentController extends Controller
      */
     public function destroy(Enterprise $enterprise, Operator $operator, Document $document)
     {
+        Gate::authorize("view", $enterprise);
+        Gate::authorize("view", $operator);
+        Gate::authorize("delete", $document);
+
         $enterprise->documents()->findOrFail($document->id);
-
-        if ($operator->enterprise_id !== $enterprise->id) {
-            abort(404);
-        }
-
-        if ($document->operator_id !== $operator->id) {
-            abort(404);
-        }
 
         $document->delete();
 

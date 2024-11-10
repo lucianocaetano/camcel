@@ -2,31 +2,31 @@
 
 namespace App\Policies;
 
-use App\Models\Operator;
+use App\Models\Document;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class OperatorPolicy
+class DocumentPolicy
 {
     /**
      * Determine whether the user can view any models.
      */
     public function viewAny(User $user): bool
     {
-        return $user->rol === "Admin" || $user->rol === "Enterprise";
+        //
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Operator $operator): bool
+    public function view(User $user, Document $document): bool
     {
         if ($user->rol === 'Admin') {
             return true;
         }
 
         if ($user->rol === 'Enterprise') {
-            return $user->enterprise->id === $operator->enterprise_id;
+            return $user->enterprise->id === $document->enterprise_id || $user->enterprise->id === $document->operator->enterprise_id;
         }
 
         return false;
@@ -37,20 +37,20 @@ class OperatorPolicy
      */
     public function create(User $user): bool
     {
-         return $user->rol === "Admin" || $user->rol === "Enterprise";
+        //
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Operator $operator): bool
+    public function update(User $user, Document $document): bool
     {
         if ($user->rol === 'Admin') {
             return true;
         }
 
         if ($user->rol === 'Enterprise') {
-            return $user->enterprise()->operators()->where('id', $operator->id)->exists();
+            return $user->enterprise->id === $document->enterprise_id || $user->enterprise->id === $document->operator->enterprise_id;
         }
 
         return false;
@@ -59,14 +59,14 @@ class OperatorPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Operator $operator): bool
+    public function delete(User $user, Document $document): bool
     {
         if ($user->rol === 'Admin') {
             return true;
         }
 
         if ($user->rol === 'Enterprise') {
-            return $user->enterprise()->operators()->where('id', $operator->id)->exists();
+            return $user->enterprise->id === $document->enterprise_id || $user->enterprise->id === $document->operator->enterprise_id;
         }
 
         return false;
@@ -75,7 +75,7 @@ class OperatorPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Operator $operator): bool
+    public function restore(User $user, Document $document): bool
     {
         //
     }
@@ -83,7 +83,7 @@ class OperatorPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Operator $operator): bool
+    public function forceDelete(User $user, Document $document): bool
     {
         //
     }

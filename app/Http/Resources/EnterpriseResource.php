@@ -23,7 +23,11 @@ class EnterpriseResource extends JsonResource
             "image" => $this->image,
             "is_valid" => !!($this->is_valid),
             "user" => UserResource::make($user),
-           
+            'links' => [
+                'self' => route('enterprises.show', ['enterprise' => $this->id]),
+                'operators' => route('operators.index', ['enterprise' => $this->slug]),
+                'documents' => route('documents.index', ['enterprise' => $this->slug]),
+            ],
         ];
     }
 }
