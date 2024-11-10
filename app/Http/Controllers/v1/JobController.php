@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\v1;
 
 use App\Events\JobUpdated;
 use App\Http\Controllers\Controller;
@@ -17,11 +17,11 @@ class JobController extends Controller
     /**
      * Display a listing of the resource.
      */
-    
+
     public function index()
     {
         $jobs = Job::with('jobdates')->get(); // Cargar las fechas relacionadas
-    
+
         // Transformar los jobdates para incluir hora_entrada y hora_salida
         $job_dates = $jobs->flatMap(function ($job) {
             return $job->jobdates->map(function ($jobDate) {
@@ -33,13 +33,13 @@ class JobController extends Controller
                 ];
             });
         });
-        
+
         return response()->json([
             "jobs" => JobResource::collection($jobs),
             "job_dates" => $job_dates // Ahora incluye hora_entrada y hora_salida
         ]);
     }
-    
+
 
     /**
      * Store a newly created resource in storage.
@@ -61,7 +61,7 @@ class JobController extends Controller
 
         return response()->json(["job" => JobResource::make($job)], 201);
     }
-    
+
     /**
      * Update the specified resource in storage.
      */
