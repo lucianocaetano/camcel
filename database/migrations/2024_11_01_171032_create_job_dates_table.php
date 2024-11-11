@@ -17,6 +17,8 @@ return new class extends Migration
             $table->json('fecha');
             $table->time('hora_entrada')->nullable(); // Agregar esta línea
             $table->time('hora_salida')->nullable(); // Agregar esta línea
+
+            $table->unsignedBigInteger('job_id');
             $table->foreign('job_id')->references('id')->on('jobs')->onDelete('cascade');
             $table->timestamps();
         });

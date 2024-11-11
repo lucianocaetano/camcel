@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('operators', function (Blueprint $table) {
             $table->id();
-            $table->string("cedula");
-            $table->string("nombre");
-            $table->boolean("autorizado");
+            $table->string("ci");
+            $table->string("name");
+            $table->boolean("authorized");
 
             $table->text("role_description");
 

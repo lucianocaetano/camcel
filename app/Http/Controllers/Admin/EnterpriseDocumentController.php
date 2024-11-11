@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\EnterpriseDocumentStoreRequest;
-use App\Http\Requests\EnterpriseDocumentUpdateRequest;
+use App\Http\Requests\DocumentStoreRequest;
+use App\Http\Requests\DocumentUpdateRequest;
 use App\Http\Resources\EnterpriseDocumentResource;
 use App\Models\Document;
 use App\Models\Enterprise;
@@ -24,7 +24,7 @@ class EnterpriseDocumentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Enterprise $enterprise, EnterpriseDocumentStoreRequest $request)
+    public function store(Enterprise $enterprise, DocumentStoreRequest $request)
     {
         $request->validated();
 
@@ -45,7 +45,9 @@ class EnterpriseDocumentController extends Controller
      */
     public function show(Enterprise $enterprise, Document $document)
     {
-        $enterprise->documents()->findOrFail($document->id);
+        if ($document->enterprise_id !== $enterprise->id) {
+            abort(404);
+        }
 
         return response()->json(["document" => EnterpriseDocumentResource::make($document)]);
     }
@@ -53,13 +55,15 @@ class EnterpriseDocumentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Enterprise $enterprise, EnterpriseDocumentStoreRequest $request, Document $document)
+    public function update(Enterprise $enterprise, DocumentUpdateRequest $request, Document $document)
     {
-        $data=$request->validated();
+        $data = $request->validated();
 
-        $enterprise->documents()->findOrFail($document->id);
+        if ($document->enterprise_id !== $enterprise->id) {
+            abort(404);
+        }
 
-        $path=null;
+        $path = null;
 
         if ($request->file("document")) {
             $path = $request->file('document')->store('documents', 'public');
@@ -76,7 +80,9 @@ class EnterpriseDocumentController extends Controller
      */
     public function destroy(Enterprise $enterprise, Document $document)
     {
-        $enterprise->documents()->findOrFail($document->id);
+        if ($document->enterprise_id !== $enterprise->id) {
+            abort(404);
+        }
 
         $document->delete();
 

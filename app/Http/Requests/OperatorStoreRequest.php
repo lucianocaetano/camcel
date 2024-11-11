@@ -22,11 +22,10 @@ class OperatorStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "cedula" => ["required", "string", "max:44"],
-            "nombre" => ["required", "string", "max:50"],
-            "autorizado" => ["required", "boolean"],
+            "ci" => ["required", "string", "max:44"],
+            "name" => ["required", "string", "max:50"],
+            "authorized" => ["required", "boolean"],
             "role_description"  => ["required", "string",],
-            'enterprise_id' => ["required", "exists:enterprises,id"],
         ];
     }
 }

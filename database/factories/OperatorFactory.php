@@ -18,11 +18,11 @@ class OperatorFactory extends Factory
 
     public function definition(): array
     {
-    
+
         return [
-            "cedula" => uniqid(),
-            "nombre" => $this->faker->name(),
-            "autorizado" => $this->faker->boolean(),
+            "ci" => uniqid(),
+            "name" => $this->faker->name(),
+            "authorized" => $this->faker->boolean(),
             "role_description" => $this->faker->company(),
         ];
     }

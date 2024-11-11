@@ -10,9 +10,9 @@ class Operator extends Model
     use HasFactory;
 
     protected $fillable = [
-        "cedula",
-        "nombre",
-        "autorizado",
+        "ci",
+        "name",
+        "authorized",
         "role_description",
         'enterprise_id'
     ];
@@ -21,5 +21,9 @@ class Operator extends Model
     public function enterprise()
     {
         return $this->belongsTo(Enterprise::class);
+    }
+
+    public function documents () {
+        return $this->hasMany(Document::class);
     }
 }
