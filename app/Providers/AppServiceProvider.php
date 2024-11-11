@@ -24,4 +24,9 @@ class AppServiceProvider extends ServiceProvider
             return config('app.frontend_url')."/password-reset/$token?email={$notifiable->getEmailForPasswordReset()}";
         });
     }
+    protected $listen = [
+        \App\Events\JobUpdated::class => [
+            \App\Listeners\JobUpdatedListener::class,
+        ],
+    ];
 }

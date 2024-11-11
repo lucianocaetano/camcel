@@ -65,26 +65,17 @@ class JobController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(JobUpdateRequest $request, Job $job)
-    {
-        $data = $request->validated();
+    public function update(Request $request, $id)
+{
+    $job = Job::findOrFail($id);
+    $job->confirmacion_prevencionista = $request->input('confirmacion_prevencionista');
+    $job->save();
 
-        // Actualiza el trabajo
-        $job->update($data);
+    // Despachar el evento
+    event(new JobUpdated($job));
 
-        // Elimina las fechas existentes (opcional)
-        // JobDate::where('job_id', $job->id)->delete();
-
-        // Guarda las nuevas fechas
-        foreach ($request->fechas as $fecha) {
-            JobDate::updateOrCreate(
-                ['job_id' => $job->id, 'fecha' => $fecha],
-                ['fecha' => $fecha]
-            );
-        }
-
-        return response()->json(["job" => JobResource::make($job)]);
-    }
+    return response()->json(['message' => 'Job updated successfully!']);
+}
     public function updateJob(Request $request)
     {
         // Suponiendo que recibes los datos del trabajo y las fechas desde la solicitud
@@ -127,34 +118,33 @@ class JobController extends Controller
         // Actualizar la confirmación del prevencionista
         $job->confirmacion_prevencionista = $request->input('confirmacion_prevencionista');
         $job->save();
-
+        event(new JobUpdateEvent($job));
         // Devolver una respuesta
         return response()->json(['message' => 'Confirmación actualizada correctamente', 'job' => $job]);
     }
-    public function updateConfirmationEvent(Request $request, $id)
-{
-    // Validar la solicitud
-    $request->validate([
-        'confirmacion_prevencionista' => 'required|boolean',
-    ]);
-
-    // Buscar el trabajo por ID
-    $job = Job::find($id);
-
-    // Verificar si el trabajo existe
-    if (!$job) {
-        return response()->json(['message' => 'Trabajo no encontrado'], 404);
+    public function updateConfirmationJob(Request $request, $id)
+    {
+        // Encuentra el trabajo por ID
+        $job = Job::find($id);
+    
+        if (!$job) {
+            return response()->json(['message' => 'Job not found'], 404);
+        }
+    
+        // Actualiza los campos del trabajo según la solicitud
+        $job->nombre = $request->input('nombre');
+        $job->trabajo = $request->input('trabajo');
+        // Actualiza otros campos según sea necesario
+    
+        // Guarda el trabajo actualizado
+        $job->save();
+    
+        // Ahora que tienes el trabajo actualizado, puedes asignarlo a $updatedJob
+        $updatedJob = $job; // Asigna el trabajo actualizado a la variable
+    
+        // Dispara el evento JobUpdated
+        event(new JobUpdated($updatedJob));
+    
+        return response()->json(['message' => 'Job updated successfully', 'job' => $updatedJob]);
     }
-
-    // Actualizar la confirmación del prevencionista
-    $job->confirmacion_prevencionista = $request->input('confirmacion_prevencionista');
-    $job->save();
-
-    // Disparar el evento
-    broadcast(new JobUpdated($job));
-
-    // Devolver una respuesta
-    return response()->json(['message' => 'Confirmación actualizada correctamente', 'job' => $job]);
-}
-
 }

@@ -5,21 +5,20 @@ namespace App\Events;
 use App\Models\Job;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
 class JobUpdated implements ShouldBroadcast
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    use InteractsWithSockets, SerializesModels;
 
     public $job;
 
     /**
-     * Create a new event instance.
+     * Crea una nueva instancia del evento.
      *
+     * @param Job $job
      * @return void
      */
     public function __construct(Job $job)
@@ -28,12 +27,24 @@ class JobUpdated implements ShouldBroadcast
     }
 
     /**
-     * Get the channels the event should broadcast on.
+     * El canal por el que se emitirá el evento.
      *
-     * @return Channel|array
+     * @return \Illuminate\Broadcasting\Channel|array
      */
     public function broadcastOn()
     {
-        return new Channel('jobs'); // Canal general para todos los trabajos
+        return new Channel('jobs-channel');
+    }
+
+    /**
+     * Los datos que se transmitirán con el evento.
+     *
+     * @return array
+     */
+    public function broadcastWith()
+    {
+        return [
+            'job' => $this->job,  // Asegúrate de pasar correctamente los datos del trabajo
+        ];
     }
 }
