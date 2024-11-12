@@ -26,13 +26,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::apiResource("/users", V1UserController::class)->except(["show"]);
 
-    // IMPORTANTE LEER:
-
-    // juan, estas son tus rutas:
-
-    // puse tus rutas con el grupo con el prefixo /admin para que te siga funcionando el frontend
-    // yo decidi sacarlas de ese middleware por que tengo pensado usar politicas de acceso de laravel
-    // en mes de middleware
     Route::prefix("/admin")->group(function () {
         Route::apiResource("/jobs", V1JobController::class)->except(["show"]);
         Route::patch('/jobs/{id}/updateConfirmation', [V1JobController::class, 'updateConfirmation']);

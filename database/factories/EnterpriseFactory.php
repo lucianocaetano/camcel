@@ -24,6 +24,7 @@ class EnterpriseFactory extends Factory
         $image = $this->faker->image($path, 50, 50, null, false);
 
         $name = $this->faker->name();
+
         return [
             "RUT" => $this->faker->uuid(),
             "nombre" => $name,
