@@ -27,4 +27,9 @@ class AppServiceProvider extends ServiceProvider
         });
 
     }
+    protected $listen = [
+        \App\Events\JobUpdated::class => [
+            \App\Listeners\JobUpdatedListener::class,
+        ],
+    ];
 }
