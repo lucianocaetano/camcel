@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\v1;
 
 use App\Models\Enterprise;
 use App\Http\Requests\EnterpriseStoreRequest;
@@ -48,7 +48,7 @@ class EnterpriseController extends Controller
             $enterprise = $user->enterprise()->create($data);
         }
 
-        return response(["enterprise" => $enterprise], 201);
+        return response(["enterprise" => EnterpriseResource::make($enterprise)], 201);
     }
 
     /**

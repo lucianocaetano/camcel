@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\v1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\OperatorStoreRequest;
@@ -62,10 +62,6 @@ class OperatorController extends Controller
         Gate::authorize('view', $operator);
         Gate::authorize('view', $enterprise);
 
-        if ($operator->enterprise_id !== $enterprise->id) {
-            abort(404);
-        }
-
         return response()->json([
             "operator" => OperatorResource::make($operator)
         ]);
@@ -81,10 +77,6 @@ class OperatorController extends Controller
 
         $data = $request->validated();
 
-        if ($operator->enterprise_id !== $enterprise->id) {
-            abort(404);
-        }
-
         $operator->update($data);
 
         return response()->json([
@@ -99,10 +91,6 @@ class OperatorController extends Controller
     {
         Gate::authorize('delete', $operator);
         Gate::authorize('view', $enterprise);
-
-        if ($operator->enterprise_id !== $enterprise->id) {
-            abort(404);
-        }
 
         $operator->delete();
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\v1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DocumentStoreRequest;
@@ -8,6 +8,7 @@ use App\Http\Requests\DocumentUpdateRequest;
 use App\Http\Resources\EnterpriseDocumentResource;
 use App\Models\Document;
 use App\Models\Enterprise;
+use Illuminate\Support\Facades\Gate;
 
 class EnterpriseDocumentController extends Controller
 {
@@ -16,6 +17,8 @@ class EnterpriseDocumentController extends Controller
      */
     public function index(Enterprise $enterprise)
     {
+        Gate::authorize("view", $enterprise);
+
         $documents = $enterprise->documents()->orderBy("created_at", "desc")->get();
 
         return response()->json(["documents" => EnterpriseDocumentResource::collection($documents)]);
@@ -26,6 +29,8 @@ class EnterpriseDocumentController extends Controller
      */
     public function store(Enterprise $enterprise, DocumentStoreRequest $request)
     {
+        Gate::authorize("view", $enterprise);
+
         $request->validated();
 
         $path = $request->file('document')->store('documents', 'public');
@@ -45,9 +50,8 @@ class EnterpriseDocumentController extends Controller
      */
     public function show(Enterprise $enterprise, Document $document)
     {
-        if ($document->enterprise_id !== $enterprise->id) {
-            abort(404);
-        }
+        Gate::authorize("view", $enterprise);
+        Gate::authorize("view", $document);
 
         return response()->json(["document" => EnterpriseDocumentResource::make($document)]);
     }
@@ -57,11 +61,10 @@ class EnterpriseDocumentController extends Controller
      */
     public function update(Enterprise $enterprise, DocumentUpdateRequest $request, Document $document)
     {
-        $data = $request->validated();
+        Gate::authorize("view", $enterprise);
+        Gate::authorize("update", $document);
 
-        if ($document->enterprise_id !== $enterprise->id) {
-            abort(404);
-        }
+        $data = $request->validated();
 
         $path = null;
 
@@ -80,9 +83,8 @@ class EnterpriseDocumentController extends Controller
      */
     public function destroy(Enterprise $enterprise, Document $document)
     {
-        if ($document->enterprise_id !== $enterprise->id) {
-            abort(404);
-        }
+        Gate::authorize("view", $enterprise);
+        Gate::authorize("delete", $document);
 
         $document->delete();
 

@@ -20,7 +20,11 @@ class OperatorDocumentResource extends JsonResource
             "title" => $this->title,
             "expire" => $this->expire,
             "is_valid" => !!($this->is_valid),
-            'operator' => $this->operator->nombre,
+            'operator' => $this->operator->name,
+            "links" => [
+                'self' => route('operators.documents.show', ['enterprise' => $this->operator->enterprise->slug, "operator" => $this->operator->id, "document" => $this->id]),
+                'operator' => route('operators.show', ['enterprise' => $this->operator->enterprise->slug, "operator" => $this->operator->id]),
+            ]
         ];
     }
 }
