@@ -37,17 +37,7 @@ class OperatorController extends Controller
 
         $operator = $enterprise->operators()->create($data);
 
-        $user = Auth::user();
-
-        $operator = null;
-
-        if ($user->rol === "Admin") {
-            $operator = Operator::create($data);
-        }
-
-        if ($user->rol === "Enterprise") {
-            $operator = $user->operators()->create($data);
-        }
+        $operator = $enterprise->operators()->create($data);
 
         return response()->json([
             "operator" => OperatorResource::make($operator)
