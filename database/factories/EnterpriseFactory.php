@@ -21,7 +21,7 @@ class EnterpriseFactory extends Factory
     {
         $path = storage_path("app/public/enterprises/");
 
-        $image = $this->faker->image($path, 50, 50, null, false);
+        //$image = $this->faker->image($path, 50, 50, null, false);
 
         $name = $this->faker->name();
 
@@ -29,7 +29,7 @@ class EnterpriseFactory extends Factory
             "RUT" => $this->faker->uuid(),
             "nombre" => $name,
             "slug" => str($name." ".uniqid())->slug(),
-            "image" => "storage/enterprises/".$image,
+            "image" => null,//"storage/enterprises/".$image,
             "is_valid" => $this->faker->boolean(),
             "user_id" => User::factory()
         ];
