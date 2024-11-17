@@ -15,14 +15,13 @@ class EnterpriseResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $user = User::where(["id" => $this->user_id])->first();
         return [
             "RUT" => $this->RUT,
             "slug" => $this->slug,
             "nombre" => $this->nombre,
             "image" => $this->image,
             "is_valid" => !!($this->is_valid),
-            "user" => UserResource::make($user),
+            "user" => UserResource::make($this->user),
             'links' => [
                 'self' => route('enterprises.show', ['enterprise' => $this->id]),
                 'operators' => route('operators.index', ['enterprise' => $this->slug]),

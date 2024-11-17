@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\EnterpriseResource;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Database\Seeders\EnterpriseSeeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -55,7 +56,7 @@ class AuthController extends Controller
         }
 
         $token = $user->createToken('auth_token')->plainTextToken;
-        
+
         $enterprise = $user->enterprise;
 
         return response()->json([
@@ -66,21 +67,22 @@ class AuthController extends Controller
                 "email" => $user->email,
                 "rol" => $user->rol
             ],
-            "enterprise" => $enterprise? EnterpriseResource::make($enterprise): null
+            'enterprise' => $enterprise? EnterpriseResource::make($enterprise): null
         ]);
     }
 
     public function me(Request $request)
     {
-        $enterprise = $request->user()->enterprise;
 
+        $enterprise = $request->user->enterprise;
+            
         return response()->json([
             "user" => [
                 "name" => $request->user()->name,
                 "email" => $request->user()->email,
                 "rol" => $request->user()->rol
             ],
-            "enterprise" => $enterprise? EnterpriseResource::make($enterprise): null
+            'enterprise' => $enterprise? EnterpriseResource::make($enterprise): null
         ], 201);
     }
 }

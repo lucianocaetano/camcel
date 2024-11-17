@@ -45,7 +45,7 @@ class EnterpriseController extends Controller
         }
 
         if ($user->rol === "Enterprise") {
-            $enterprise = $user->enterprise()->create($data);
+            $enterprise = $user->enterprises()->create($data);
         }
 
         return response(["enterprise" => EnterpriseResource::make($enterprise)], 201);
