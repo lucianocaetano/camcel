@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Enterprise;
+use App\Models\Operator;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -14,17 +15,19 @@ class UserEnterpriseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->create([
+        $users = User::factory()->create([
             "name" => "empresa",
             "email" => "empresa@gmail.com",
             "password" => "empresa",
             "rol" => "Enterprise"
         ]);
 
-        $user = User::where("name", "empresa")->first();
+        $enterprises = Enterprise::factory()->create([
+            'user_id' => $users->first()->id
+        ]);
 
-        Enterprise::factory()->create([
-            'user_id' => $user->id
+        Operator::factory(5)->create([
+            'enterprise_id' => $enterprises->first()->id
         ]);
     }
 }
