@@ -41,4 +41,18 @@ class Job extends Model
             event(new JobUpdated($job));
         });
     }
+    public function dates()
+    {
+        return $this->hasMany(JobDate::class);
+    }
+
+    public function documents()
+    {
+        return $this->hasMany(Document::class);
+    }
+
+    public function requestedDocuments()
+    {
+        return $this->hasMany(RequestedDocument::class);
+    }
 }

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('job_dates', function (Blueprint $table) {
             $table->id();
-            $table->json('fecha');
+            $table->date('fecha');
             $table->time('hora_entrada')->nullable(); // Agregar esta línea
             $table->time('hora_salida')->nullable(); // Agregar esta línea
 

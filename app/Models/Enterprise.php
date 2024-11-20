@@ -11,6 +11,7 @@ class Enterprise extends Model
     use HasFactory;
 
     protected $fillable = [
+        "id",
         "RUT",
         "nombre",
         "slug",

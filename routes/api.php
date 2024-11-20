@@ -11,6 +11,7 @@ use App\Http\Controllers\v1\OperatorController as V1OperatorController;
 use App\Http\Controllers\v1\UserController as V1UserController;
 use App\Http\Controllers\v1\EnterpriseDocumentController as V1EnterpriseDocumentController;
 use App\Http\Controllers\v1\OperatorDocumentController as V1OperatorDocumentController;
+use App\Http\Controllers\ActividadController;
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', [AuthController::class, "me"]);
@@ -30,6 +31,11 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::apiResource("/jobs", V1JobController::class)->except(["show"]);
         Route::patch('/jobs/{id}/updateConfirmation', [V1JobController::class, 'updateConfirmation']);
         Route::patch('/jobs/{id}/updateConfirmationEvent', [V1JobController::class, 'updateConfirmationEvent']);
+        Route::post('/request-documents', [JobController::class, 'requestDocuments']);
+        Route::post('/documents/upload', [JobController::class, 'uploadDocument']);
+        Route::post('/jobs', [V1JobController::class, 'store']);
+
+
     });
 });
 
@@ -37,3 +43,4 @@ Route::middleware(["guest"])->prefix("auth/")->group(function () {
     Route::post("register/", [AuthController::class, "register"]);
     Route::post("login/", [AuthController::class, "login"]);
 });
+

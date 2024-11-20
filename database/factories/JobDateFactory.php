@@ -19,7 +19,7 @@ class JobDateFactory extends Factory
          $formattedDate = $date->format('Y-m-d'); // Cambia el formato según lo que necesites
         return [
             'job_id' => Job::factory(),
-           'fecha' => json_encode($formattedDate),
+           'fecha' => $this->faker->date($format = 'Y-m-d'),
             'hora_entrada' => $this->faker->time($format = 'H:i', $max = 'now'),
             'hora_salida' => $this->faker->time($format = 'H:i', $max = 'now'),
            
