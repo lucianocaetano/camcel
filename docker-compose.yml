@@ -1,0 +1,47 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - 8000:8000  # Exponer el puerto 8000
+    volumes:
+      - .:/home/app  # Montar el directorio actual en el contenedor
+    depends_on:
+      - db  # El servicio 'app' depende del servicio 'db'
+    networks:
+      - laravel-network
+
+  frontend:
+    build:
+      context: ../camcel_frontend
+      dockerfile: Dockerfile
+    ports:
+      - 9000:9000  # Mapea el puerto 8080 del contenedor al puerto 9000 de la máquina
+    volumes:
+      - ./frontend:/app  # Mapea la carpeta local frontend con la carpeta del contenedor
+    environment:
+      - NODE_ENV=development
+    networks:
+      - laravel-network
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: laravel
+    ports:
+      - 3306:3306  # Exponer el puerto 3306 para conectar con MySQL
+    volumes:
+      - mysql_data:/var/lib/mysql  # Persistir los datos de la base de datos
+    networks:
+      - laravel-network
+
+networks:
+  laravel-network:
+    driver: bridge  # Usar una red puente para que los contenedores se puedan comunicar
+
+volumes:
+  mysql_data:
+    driver: local  # Persistir los datos de MySQL
+
