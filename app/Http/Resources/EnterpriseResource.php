@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources;
 
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -17,8 +16,9 @@ class EnterpriseResource extends JsonResource
     {
         return [
             "RUT" => $this->RUT,
+            "id" => $this->id,
             "slug" => $this->slug,
-            "nombre" => $this->nombre,
+            "name" => $this->nombre,
             "image" => $this->image,
             "is_valid" => !!($this->is_valid),
             "user" => UserResource::make($this->user),

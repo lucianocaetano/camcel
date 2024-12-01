@@ -7,6 +7,7 @@ use App\Http\Requests\EnterpriseStoreRequest;
 use App\Http\Requests\EnterpriseUpdateRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\EnterpriseResource;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
@@ -15,11 +16,21 @@ class EnterpriseController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         Gate::authorize('viewAny', Enterprise::class);
 
-        $enterprises = Enterprise::orderBy('created_at', 'desc')->get();
+        $query = Enterprise::query();
+
+        $filter = $request->input('filter', 'all');
+   
+        if ($filter === 'true') {
+            $query->where('is_valid', 1);
+        } else if ($filter === 'false'){
+            $query->where('is_valid', 0);
+        }
+
+        $enterprises = $query->orderBy('created_at', 'desc')->get();
 
         return response()->json(EnterpriseResource::collection($enterprises));
     }
@@ -78,7 +89,7 @@ class EnterpriseController extends Controller
 
         $enterprise->update($data);
 
-        return response(["enterprise" => $enterprise]);
+        return response(["enterprise" => EnterpriseResource::make($enterprise)]);
     }
 
     /**
@@ -88,7 +99,7 @@ class EnterpriseController extends Controller
     {
         Gate::authorize('delete', $enterprise);
 
-        $enterprise->update(["is_valid" => false]);
+        $enterprise->delete();
 
         return response()->json();
     }

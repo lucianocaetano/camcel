@@ -19,7 +19,20 @@ services:
     ports:
       - 9000:9000  # Mapea el puerto 8080 del contenedor al puerto 9000 de la máquina
     volumes:
-      - ./frontend:/app  # Mapea la carpeta local frontend con la carpeta del contenedor
+      - ../camcel_frontend:/app  # Mapea la carpeta local frontend con la carpeta del contenedor
+    environment:
+      - NODE_ENV=development
+    networks:
+      - laravel-network
+
+  frontend_enterprise:
+    build:
+      context: ../frontend-empresas
+      dockerfile: Dockerfile
+    ports:
+      - 9001:9001  # Mapea el puerto 8080 del contenedor al puerto 9000 de la máquina
+    volumes:
+      - ../frontend-empresas:/app  # Mapea la carpeta local frontend con la carpeta del contenedor
     environment:
       - NODE_ENV=development
     networks:

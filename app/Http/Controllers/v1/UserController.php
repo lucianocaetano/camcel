@@ -19,7 +19,14 @@ class UserController extends Controller
     public function index(Request $request)
     {
         if($request->role){
-            $users = User::where("rol", "=", $request->role)->get();
+            // not enterprise
+            if($request->role === "users_not_enterprise"){
+                $users = User::doesntHave('enterprise')->get();
+            }else{
+
+                $users = User::where("rol", "=", $request->role)->get();
+            }
+
         }else{
             $users = User::all();
         }

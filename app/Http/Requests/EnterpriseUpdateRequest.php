@@ -24,7 +24,7 @@ class EnterpriseUpdateRequest extends FormRequest
         return [
             "nombre" => ["string"],
             "is_valid" => ["bool"],
-            "image" => ["nullable", "image"],
+            "image" => ["image"],
             "user_id" => ["nullable", "exists:users,id"]
         ];
     }

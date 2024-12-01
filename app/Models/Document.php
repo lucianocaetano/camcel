@@ -27,5 +27,9 @@ class Document extends Model
         return $this->belongsTo(Operator::class);
     }
 
+    public function job () {
+        return $this->belongsTo(Job::class);
+    }
+
 }
 
