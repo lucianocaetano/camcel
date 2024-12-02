@@ -40,7 +40,19 @@ class JobController extends Controller
         ]);
     }
 
+    public function show($id)
+    {
+        // Busca el trabajo por ID y carga relaciones necesarias
+        $trabajo = Job::with(['fechas', 'documentos'])->find($id);
 
+        // Si no se encuentra el trabajo, devolver un error 404
+        if (!$trabajo) {
+            return response()->json(['error' => 'Trabajo no encontrado'], 404);
+        }
+
+        // Devuelve el trabajo como JSON
+        return response()->json($trabajo);
+    }
     /**
      * Store a newly created resource in storage.
      */

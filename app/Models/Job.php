@@ -23,6 +23,14 @@ class Job extends Model
     {
         return $this->hasMany(JobDate::class, 'job_id');
     }
+    public function fechas()
+    {
+        return $this->hasMany(JobDate::class);
+    }
+    public function documentos()
+    {
+        return $this->hasMany(Document::class);
+    }
 
     public function enterprise(){
         return $this->belongsTo(Enterprise::class);

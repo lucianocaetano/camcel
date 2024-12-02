@@ -30,6 +30,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::apiResource("/jobs", V1JobController::class)->except(["show"]);
         Route::patch('/jobs/{id}/updateConfirmation', [V1JobController::class, 'updateConfirmation']);
         Route::patch('/jobs/{id}/updateConfirmationEvent', [V1JobController::class, 'updateConfirmationEvent']);
+        Route::get('/jobs/{id}', [JobController::class, 'show']);
     });
 });
 
