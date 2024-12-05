@@ -30,11 +30,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource("/users", V1UserController::class)->except(["show"]);
 
     Route::prefix("/admin")->group(function () {
-        Route::apiResource("/jobs", V1JobController::class)->except(["show"]);
+        Route::get('/jobs', [V1JobController::class, 'show']);
         Route::patch('/jobs/{id}/updateConfirmation', [V1JobController::class, 'updateConfirmation']);
         Route::patch('/jobs/{id}/updateConfirmationEvent', [V1JobController::class, 'updateConfirmationEvent']);
         Route::get('/jobs/{id}', [JobController::class, 'show']);
-        
+        Route::post('/jobs/update', [V1JobController::class, 'store']);
 
     });
 });
