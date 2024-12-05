@@ -20,6 +20,8 @@ class EnterpriseController extends Controller
     {
         Gate::authorize('viewAny', Enterprise::class);
 
+        
+
         $query = Enterprise::query();
 
         $filter = $request->input('filter', 'all');
@@ -33,8 +35,21 @@ class EnterpriseController extends Controller
         $enterprises = $query->orderBy('created_at', 'desc')->get();
 
         return response()->json(EnterpriseResource::collection($enterprises));
+        
+    }
+    public function getDocuments($id)
+{
+    $enterprise = Enterprise::find($id);
+
+    if (!$enterprise) {
+        return response()->json([
+            'message' => "No se encontró la empresa con el ID $id"
+        ], 404);
     }
 
+    $documents = $enterprise->documents; // Relación con los documentos
+    return response()->json($documents, 200);
+}
     /**
      * Store a newly created resource in storage.
      */
