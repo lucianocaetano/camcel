@@ -9,6 +9,7 @@ use App\Models\Enterprise;
 use App\Models\Operator;
 use App\Http\Requests\DocumentStoreRequest;
 use App\Http\Requests\DocumentUpdateRequest;
+use App\Http\Resources\Pagination\OperatorDocumentsPaginatedCollection;
 use Illuminate\Support\Facades\Gate;
 
 class OperatorDocumentController extends Controller
@@ -21,9 +22,9 @@ class OperatorDocumentController extends Controller
         Gate::authorize("view", $enterprise);
         Gate::authorize("view", $operator);
 
-        $documents = $operator->documents()->orderBy("created_at", "desc")->get();
+        $documents = $operator->documents()->orderBy("created_at", "desc")->paginate(5);
 
-        return response()->json(["documents" => OperatorDocumentResource::collection($documents)]);
+        return response()->json(new OperatorDocumentsPaginatedCollection($documents));
     }
 
     /**

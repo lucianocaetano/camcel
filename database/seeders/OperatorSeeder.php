@@ -17,7 +17,7 @@ class OperatorSeeder extends Seeder
         $enterprises = Enterprise::all();
 
         foreach ($enterprises as $enterprise) {
-            Operator::factory(5)->create(["enterprise_id"=>$enterprise->id]);
+            Operator::factory(30)->create(["enterprise_id"=>$enterprise->id]);
         }
     }
 }

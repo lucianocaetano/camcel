@@ -2,23 +2,22 @@
 
 namespace App\Http\Resources\Pagination;
 
-use App\Http\Resources\OperatorDocumentResource;
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class OperatorDocumentsPaginatedCollection extends ResourceCollection
+class UsersPaginatedCollection extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.
      *
      * @return array<int|string, mixed>
      */
-    public $collects = OperatorDocumentResource::class;
-
+    public $collects = UserResource::class;
     public function toArray(Request $request): array
     {
         return [
-            "documents" => $this->collection,
+            "users" => $this->collection,
             'links' => [
                 'first' => $this->url(1),
                 'last' => $this->url($this->lastPage()),

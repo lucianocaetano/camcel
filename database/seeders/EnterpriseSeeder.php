@@ -14,6 +14,6 @@ class EnterpriseSeeder extends Seeder
      */
     public function run(): void
     {
-      Enterprise::factory(10)->create();
+      Enterprise::factory(35)->create();
     }
 }

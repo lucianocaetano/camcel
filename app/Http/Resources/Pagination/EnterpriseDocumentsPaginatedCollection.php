@@ -18,7 +18,7 @@ class EnterpriseDocumentsPaginatedCollection extends ResourceCollection
     public function toArray(Request $request): array
     {
         return [
-            "documents" => $this->collections,
+            "documents" => $this->collection,
             'links' => [
                 'first' => $this->url(1),
                 'last' => $this->url($this->lastPage()),

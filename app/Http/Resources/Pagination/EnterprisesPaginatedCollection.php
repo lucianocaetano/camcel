@@ -18,7 +18,7 @@ class EnterprisesPaginatedCollection extends ResourceCollection
     public function toArray(Request $request): array
     {
         return [
-            "enterprises" => $this->collections,
+            "enterprises" => $this->collection,
             'links' => [
                 'first' => $this->url(1),
                 'last' => $this->url($this->lastPage()),
@@ -31,7 +31,7 @@ class EnterprisesPaginatedCollection extends ResourceCollection
                 'last_page' => $this->lastPage(),
                 'path' => $this->path(),
                 'per_page' => $this->perPage(),
-                'to' => $this->lastItem(),
+                'last_item' => $this->lastItem(),
                 'total' => $this->total(),
             ],
         ];

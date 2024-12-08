@@ -18,13 +18,13 @@ class DocumentSeeder extends Seeder
         $operators = Operator::all();
 
         foreach ($enterprises as $enterprise) {
-            Document::factory(5)->create([
+            Document::factory(30)->create([
                 "enterprise_id" => $enterprise->id
             ]);
         }
 
         foreach ($operators as $operator) {
-            Document::factory(5)->create([
+            Document::factory(30)->create([
                 "operator_id" => $operator->id
             ]);
         }

@@ -18,7 +18,7 @@ class OperatorsPaginatedCollection extends ResourceCollection
     public function toArray(Request $request): array
     {
         return [
-            "operators" => $this->collections,
+            "operators" => $this->collection,
             'links' => [
                 'first' => $this->url(1),
                 'last' => $this->url($this->lastPage()),

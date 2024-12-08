@@ -23,8 +23,8 @@ class DocumentStoreRequest extends FormRequest
     {
         return [
             "title" => ["required", "string"],
-            "document" => ["nullable", "required", "file", "mimes:pdf"],
-            "expire" => ["nullable", "required", "date", 'date_format:Y-m-d H:i:s'],
+            "document" => ["required", "file", "mimes:pdf"],
+            "expire" => ["nullable", "required", "date", 'date_format:Y-m-d H:i'],
             "is_valid" => ["boolean"],
         ];
     }

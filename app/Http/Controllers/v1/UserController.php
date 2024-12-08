@@ -7,6 +7,7 @@ use App\Http\Requests\UserStoreRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\EnterpriseResource;
+use App\Http\Resources\Pagination\UsersPaginatedCollection;
 use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -18,20 +19,29 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
+
+        $query = User::query();
+
         if($request->role){
             // not enterprise
             if($request->role === "users_not_enterprise"){
-                $users = User::doesntHave('enterprise')->get();
+                $query->doesntHave('enterprise');
             }else{
 
-                $users = User::where("rol", "=", $request->role)->get();
+                $query->where("rol", "=", $request->role);
             }
 
-        }else{
-            $users = User::all();
         }
 
-        return response()->json(["users" =>UserResource::collection($users)], 200);
+        $search = $request->input('search', null);
+
+        if ($search !== null) {
+            $query->where('name', 'LIKE', "%{$search}%");
+        }
+
+        $users = $query->paginate(10);
+        
+        return response()->json(new UsersPaginatedCollection($users), 200);
     }
 
     /**

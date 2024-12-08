@@ -19,7 +19,7 @@ class EnterpriseFactory extends Factory
      */
     public function definition(): array
     {
-        $path = storage_path("app/public/enterprises/");
+        // $path = storage_path("app/public/enterprises/");
 
         //$image = $this->faker->image($path, 50, 50, null, false);
 

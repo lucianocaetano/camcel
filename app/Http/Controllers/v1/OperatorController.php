@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\OperatorStoreRequest;
 use App\Http\Requests\OperatorUpdateRequest;
 use App\Http\Resources\OperatorResource;
+use App\Http\Resources\Pagination\OperatorsPaginatedCollection;
 use App\Models\Enterprise;
 use App\Models\Operator;
 use Illuminate\Support\Facades\Auth;
@@ -18,11 +19,9 @@ class OperatorController extends Controller
         Gate::authorize('viewAny', Operator::class);
         Gate::authorize('view', $enterprise);
 
-        $operators = $enterprise->operators()->orderBy("created_at", "desc")->get();
+        $operators = $enterprise->operators()->orderBy("created_at", "desc")->paginate(5);
 
-        return response()->json([
-            "operators" => OperatorResource::collection($operators)
-        ]);
+        return response()->json(new OperatorsPaginatedCollection($operators));
     }
 
     /**

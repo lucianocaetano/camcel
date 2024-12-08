@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('documents', function (Blueprint $table) {
             $table->id();
-            $table->string("url_document")->nullable();
+            $table->string("url_document");
             $table->string("title");
             $table->datetime("expire")->nullable();
             $table->string("type")->nullable();

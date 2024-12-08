@@ -25,8 +25,7 @@ class OperatorUpdateRequest extends FormRequest
             "ci" => ["string", "max:44"],
             "name" => ["string", "max:50"],
             "authorized" => ["boolean"],
-            "role_description"  => ["string",],
-
+            "role_description" => ["string",],
         ];
     }
 }

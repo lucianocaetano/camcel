@@ -6,7 +6,7 @@ services:
     ports:
       - 8000:8000  # Exponer el puerto 8000
     volumes:
-      - .:/home/app  # Montar el directorio actual en el contenedor
+      - .:/var/www/html  # Montar el directorio actual en el contenedor
     depends_on:
       - db  # El servicio 'app' depende del servicio 'db'
     networks:
@@ -20,19 +20,6 @@ services:
       - 9000:9000  # Mapea el puerto 8080 del contenedor al puerto 9000 de la máquina
     volumes:
       - ../camcel_frontend:/app  # Mapea la carpeta local frontend con la carpeta del contenedor
-    environment:
-      - NODE_ENV=development
-    networks:
-      - laravel-network
-
-  frontend_enterprise:
-    build:
-      context: ../frontend-empresas
-      dockerfile: Dockerfile
-    ports:
-      - 9001:9001  # Mapea el puerto 8080 del contenedor al puerto 9000 de la máquina
-    volumes:
-      - ../frontend-empresas:/app  # Mapea la carpeta local frontend con la carpeta del contenedor
     environment:
       - NODE_ENV=development
     networks:

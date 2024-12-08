@@ -7,9 +7,12 @@ use App\Http\Requests\EnterpriseStoreRequest;
 use App\Http\Requests\EnterpriseUpdateRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\EnterpriseResource;
+use App\Http\Resources\Pagination\EnterprisesPaginatedCollection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+
+use function Laravel\Prompts\search;
 
 class EnterpriseController extends Controller
 {
@@ -22,17 +25,23 @@ class EnterpriseController extends Controller
 
         $query = Enterprise::query();
 
-        $filter = $request->input('filter', 'all');
-   
+        $filter = $request->input('filter');
+
         if ($filter === 'true') {
             $query->where('is_valid', 1);
-        } else if ($filter === 'false'){
+        } else if ($filter === 'false') {
             $query->where('is_valid', 0);
         }
 
-        $enterprises = $query->orderBy('created_at', 'desc')->get();
+        $search = $request->input('search', null);
 
-        return response()->json(EnterpriseResource::collection($enterprises));
+        if ($search !== null) {
+            $query->where('nombre', 'LIKE', "%{$search}%");
+        }
+
+        $enterprises = $query->orderBy('created_at', 'desc')->paginate(15);
+
+        return response()->json(new EnterprisesPaginatedCollection($enterprises));
     }
 
     /**
