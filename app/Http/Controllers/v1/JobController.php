@@ -40,28 +40,86 @@ class JobController extends Controller
         ]);
     }
 
+    public function show($id)
+    {
+        // Busca el trabajo por ID y carga relaciones necesarias
+        $trabajo = Job::with(['fechas', 'documentos'])->find($id);
 
+        // Si no se encuentra el trabajo, devolver un error 404
+        if (!$trabajo) {
+            return response()->json(['error' => 'Trabajo no encontrado'], 404);
+        }
+
+        // Devuelve el trabajo como JSON
+        return response()->json($trabajo);
+    }
     /**
      * Store a newly created resource in storage.
      */
-    public function store(JobStoreRequest $request)
+    public function store(Request $request)
     {
-        $data = $request->validated();
-
-        // Crea el trabajo
-        $job = Job::create($data);
-
-        // Guarda las fechas
-        foreach ($request->fechas as $fecha) {
-            JobDate::create([
-                'job_id' => $job->id,
-                'fecha' => $fecha,
+        try {
+            // Validar los datos recibidos
+            $validated = $request->validate([
+                'trabajo' => 'required|string|max:255',
+                'enterprise_id' => 'required|exists:enterprises,id',
+                'fechas' => 'required|array',
+                'fechas.*.fechaInicio' => 'required|date',
+                'fechas.*.timeE' => 'required|date_format:H:i',
+                'fechas.*.timeS' => 'required|date_format:H:i',
+                'documentos' => 'nullable|array',
+                'documentos.*.titulo' => 'required|string|max:255',
+                'documentos.*.url' => 'nullable|file',
             ]);
+
+            // Crear el trabajo (Job)
+            $job = Job::create([
+                'trabajo' => $validated['trabajo'],
+                'enterprise_id' => $validated['enterprise_id'],
+                'confirmacion_prevencionista' => false,
+                'confirmacion_empresa' => false,
+            ]);
+
+            // Guardar las fechas (JobDates)
+            foreach ($validated['fechas'] as $fecha) {
+                JobDate::create([
+                    'fecha' => $fecha['fechaInicio'],
+                    'hora_entrada' => $fecha['timeE'],
+                    'hora_salida' => $fecha['timeS'],
+                    'job_id' => $job->id,
+                ]);
+            }
+
+            // Procesar documentos
+            if (!empty($validated['documentos'])) {
+                foreach ($validated['documentos'] as $doc) {
+                    if (isset($doc['url']) && $doc['url']) {
+                        // Guardar documentos con archivo en Documents
+                        Document::create([
+                            'title' => $doc['titulo'],
+                            'url_document' => $doc['url'], // Aquí deberías procesar la subida
+                            'job_id' => $job->id,
+                            'is_valid' => $doc['valido'] ?? false,
+                            'expire' => $doc['dataTang'] ?? null,
+                        ]);
+                    } else {
+                        // Guardar documentos sin archivo en RequestedDocuments
+                        RequestedDocument::create([
+                            'title' => $doc['titulo'],
+                            'job_id' => $job->id,
+                            'enterprise_id' => $validated['enterprise_id'],
+                        ]);
+                    }
+                }
+            }
+
+            return response()->json(['message' => 'Trabajo creado exitosamente'], 201);
+
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
         }
-
-        return response()->json(["job" => JobResource::make($job)], 201);
     }
-
+     
     /**
      * Update the specified resource in storage.
      */

@@ -21,6 +21,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::apiResource("/operators", V1OperatorController::class);
         Route::prefix("/operators/{operator:id}")->group(function () {
             Route::apiResource("/documents", V1OperatorDocumentController::class)->names("operators.documents");
+            Route::get('/enterprises/{id}/documents', [V1EnterpriseController::class, 'getDocuments']);
+            
+
         });
     });
 
@@ -30,6 +33,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::apiResource("/jobs", V1JobController::class)->except(["show"]);
         Route::patch('/jobs/{id}/updateConfirmation', [V1JobController::class, 'updateConfirmation']);
         Route::patch('/jobs/{id}/updateConfirmationEvent', [V1JobController::class, 'updateConfirmationEvent']);
+        Route::get('/jobs/{id}', [JobController::class, 'show']);
+        Route::post('/jobs/update', [V1JobController::class, 'store']);
+
     });
 });
 

@@ -42,6 +42,7 @@ class EnterpriseController extends Controller
         $enterprises = $query->orderBy('created_at', 'desc')->paginate(15);
 
         return response()->json(new EnterprisesPaginatedCollection($enterprises));
+        
     }
 
     /**
